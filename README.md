@@ -41,7 +41,6 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 12. [Homework](#12-homework)
 
 
-
 ## 1. Create Astra DB Instance
 
 _**`ASTRA DB`** is the simplest way to run Cassandra with zero operations at all - just push the button and get your cluster. No credit card required, $25.00 USD credit every month, roughly 5M writes, 30M reads, 40GB storage monthly - sufficient to run small production workloads._
@@ -318,7 +317,7 @@ mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
 
 [🏠 Back to Table of Contents](#table-of-content)
 
-## 7. quarkus:dev and Hot reloading
+## 7. quarkus:dev and Hot Reloading
 
 ✅ **Step 7a: Begin dev**
 
@@ -412,7 +411,7 @@ You can get Quarkus development metrics and so on hitting the `d` key as indicat
 
 You can always get out of development mode by hitting `q`.
 
-✅ **Step 8: Debugging**
+## 8. Debugging
 
 ✅ **Step 8a: Set breakpoint**
 
@@ -461,13 +460,13 @@ You should hit the breakpoint as shown below. Cool!
 
 Now, fix the entry spelling in debug mode by clicking on the down arrow of `todo`, double clicking on the `title` entry and entering `debugging`. Finally, hit arrow button in the top small middle pane in the center which will allow the application to continue as shown below.
 
-[gitpod](images/tutorials/debug6.png?raw=true)
+![gitpod](images/tutorials/debug6.png?raw=true)
 
 You should see that the updated entry that you fixed with a debug session is what's persisted.
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
-✅ **Step 9: Packaging**
+## 9. Packaging
 
 ✅ **Step 9a: Package**
 You can package up the application with the command below.
@@ -560,7 +559,7 @@ __  ____  __  _____   ___  __ ____  ______
 
 You can play with the application from the new browser window you created in step 4.
 
-✅ **Step 10: Containerizing**
+## 10. Containerizing
 
 ✅ **Step 10a: docker login**
 
@@ -638,9 +637,11 @@ gp open target/kubernetes/kubernetes.yml
 
 It's left as an exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
 
-✅ **Step 11: Native Image**
+## 11. Native Image
 
 Finally, Quarkus can build a native executable image with the help of the GraalVM that was pre-installed with a simple command as below. **Get yourself some coffee** or water as this will take almost 10 minutes but exceuting this image will be super fast with minimal startup time since it does not depend on the JVM.
+
+✅ **Step 11a: Generating Native Image**
 
 ```bash
 mvn clean package -Pnative -DskipTests
@@ -781,6 +782,9 @@ Picked up JAVA_TOOL_OPTIONS: -Xmx2576m
 [INFO] Finished at: 2021-10-25T20:03:28Z
 [INFO] ------------------------------------------------------------------------
 ```
+
+
+✅ **Step 11b: Running Native Image**
 
 ```bash
 ./target/quarkus-astra-intro-demo-0.01-runner
