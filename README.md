@@ -8,7 +8,7 @@ Today we showcase an application using **Apache Cassandra™** as a backend impl
 
 There are many other features of the Quarkus platform that we will not be looking into that are widely considered as unique strenghts of the platform including testing.
 
-The application we will be using is basdede based on [Jake's port](https://github.com/tjake/todo-astra-react-serverless/) of the [TodoMVC code](https://github.com/tastejs/todomvc/tree/master/examples/react) originally written by [Pete Hunt](https://github.com/petehunt). The example is modified from [https://github.com/huksley/todo-react-ssr-serverless](https://github.com/huksley/todo-react-ssr-serverless).
+The application we will be using is based on [Jake's port](https://github.com/tjake/todo-astra-react-serverless/) of the [TodoMVC code](https://github.com/tastejs/todomvc/tree/master/examples/react) originally written by [Pete Hunt](https://github.com/petehunt). The example is modified from [https://github.com/huksley/todo-react-ssr-serverless](https://github.com/huksley/todo-react-ssr-serverless).
 
 ![SplashScreen](images/tutorials/splash-quarkus-cassandra.png?raw=true)
 
