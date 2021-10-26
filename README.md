@@ -25,7 +25,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Discord chat](https://bit.ly/cassandra-workshop)
 - [Questions and Answers](https://community.datastax.com/)
 
-##0. Table of contents
+## 0. Table of contents
 
 1. [Create Astra DB Instance](#1-create-astra-db-instance)
 2. [Create Astra Token](#2-create-astra-token)
@@ -43,7 +43,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 ## 1. Create Astra DB Instance
 
-_**`ASTRA DB`** is the simplest way to run Cassandra with zero operations at all - just push the button and get your cluster. No credit card required, $25.00 USD credit every month, roughly 5M writes, 30M reads, 40GB storage monthly - sufficient to run small production workloads._
+_**`ASTRA DB`** is the simplest way to run Cassandra with zero operations at all - just push the button and get your cluster. No credit card required, $25.00 USD credit every month, roughly 80GB of storage and 20 million read/write operations storage monthly (numbers that have gone up in the last few days) - sufficient to run small production workloads._
 
 ✅ Register (if needed) and Sign In to Astra DB [https://astra.datastax.com](https://astra.dev/10-27): You can use your `Github`, `Google` accounts or register with an `email`.
 
@@ -123,7 +123,7 @@ Notice the clipboard icon at the end of each value.
 
 - `appToken:` It can be used as an api token Key to interact with APIs but we won't use it in the workshop today.
 
-To know more about roles of each token you can have a look to [this video.](https://www.youtube.com/watch?v=nRqu44W-bMU)
+To know more about roles, tokens, etc. you can lok at [this video.](https://www.youtube.com/watch?v=TUTCLsBuUd4)
 
 **Note: Make sure you don't close the window accidentally or otherwise - if you close this window before you copy the values, the application token is lost forever. They won't be available later for security reasons. You'll have to create a new application token**
 
@@ -155,7 +155,7 @@ _The screenshot may be slightly different based on your default skin and a few e
 
 ## 4. Know your gitpod
 
-The estreme left side has the explorer view(1). The top left, middle to right is where you'll be editing files(2), etc. and the bottom left, middle to right is what we will refer to as the Gitpod terminal window(3) as shown below.
+The extreme left side has the explorer view(1). The top left, middle to right is where you'll be editing files(2), etc. and the bottom left, middle to right is what we will refer to as the Gitpod terminal window(3) as shown below.
 
 **👁️ Expected output**
 
@@ -166,7 +166,7 @@ You can always get back to the file explorer view whenever by clicking on the ha
 
 ![gitpod](images/tutorials/Filexplorer0.png?raw=true)
 
-✅ **Step 6a: Know your public URL**
+✅ **Step 4a: Know your public URL**
 
 The workshop application has opened with an ephemeral URL. To know the URL where your application endpoint will be exposed you can run the following command in the terminal after the build has completed. **Please note this URL and open this up in a new browser window as shown below**.
 
@@ -344,6 +344,7 @@ mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
 **** Table created true****
 ```
 
+Although a significant strength of the Quarkus platform is it's testing capabilities we will skip tests going foraward and focus on the other capabilities of the platform (perhaps, another workshop sometime focussed mainly on testing capabilities, assuming there is enough demand).
 
 [🏠 Back to Table of Contents](#0-table-of-content)
 
@@ -419,7 +420,7 @@ Now, let's go ahead and make an illustrative change.
 
 Navigate to the file `src/main/java/resources/META-INF/resources/index.html` and change the `data-ribbon` entry from "Fork me on Github" to "Fork me today on Github."
 
-Hitting `w` again you should see the hot reloading features of the platform as shown below.
+Hitting `w` again in the terminal window, you should see the hot reloading features of the platform as shown below.
 
 **👁️ Expected output**
 
