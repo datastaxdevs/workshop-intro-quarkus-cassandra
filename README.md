@@ -75,7 +75,7 @@ To create the database:
 
 _You can technically use whatever you want and update the code to reflect the keyspace. This is really to get you on a happy path for the first run._
 
-- **For provider and region**: Choose and provider (either GCP, AWS or Azure). Region is where your database will reside physically (choose one close to you or your users).
+- **For provider and region**: Choose any provider (either GCP, AWS or Azure). Region is where your database will reside physically (choose one close to you or your users).
 
 - **Create the database**. Review all the fields to make sure they are as shown, and click the `Create Database` button.
 
@@ -142,7 +142,13 @@ _The screenshot may be slightly different based on your default skin and a few e
 
 ![gitpod](images/tutorials/gitpod-01-home.png?raw=true)
 
-**That's it.** Gitpod provides all tools we will need today including `maven` and exporting port `8080`, ports `5005` which is used for debugging, etc. 
+**That's it.** Gitpod provides all tools we will need today including `maven` and exposing port `8080`, ports `5005` which is used for debugging, etc. 
+
+**You may safely ignore the error output at the end of the terminal window.**
+
+**👁️ Expected output**
+
+![image](images/tutorials/gitpod-quarkus-1.jpg?raw=true)
 
 [🏠 Back to Table of Contents](#table-of-content)
 
@@ -150,7 +156,7 @@ _The screenshot may be slightly different based on your default skin and a few e
 
 ✅ **Step 6a: Know your public URL**
 
-The workshop application has opened with an ephemeral URL. To know the URL where your application endpoint will be exposed you can run the following command in the terminal after the build has completed.
+The workshop application has opened with an ephemeral URL. To know the URL where your application endpoint will be exposed you can run the following command in the terminal after the build has completed. **Please note this URL and open this up in a new browser window as shown below**.
 
 ```bash
 gp url 8080
@@ -159,6 +165,8 @@ gp url 8080
 **👁️ Expected output**
 
 ![gitpod](images/tutorials/gitpod-02-url.png?raw=true)
+
+You may encounter the following at different steps and although this may not be applicable right away, the steps are included **in advance** and summarized here so that you can keep an eye out for it. Different paths and different environments might be slightly different although Gipod levels the playing field a bit.
 
 Although the application is not running yet, 
 launch a new browser window (**don't close it for the rest of the workshop since you'll continually keep using this**. If you accidentally close it, just come back to this step. The browser will generate an error (due to application not running yet) which is fine for now as shown below.
@@ -417,7 +425,7 @@ You can get Quarkus development metrics and so on hitting the `d` key as indicat
 
 ![gitpod](images/tutorials/quarkus-dev-4.png?raw=true)
 
-You can always get out of development mode by hitting `q`.
+You can always get out of development mode by hitting `q` or hitting <Ctrl>+C.
 
 ## 8. Debugging
 
@@ -425,6 +433,8 @@ You can always get out of development mode by hitting `q`.
 You can always get back to the file explorer view whenever by clicking on the hamburger menu on the top left followed by `View` and `Explorer` as shown below.
 
 ![gitpod](images/tutorials/Filexplorer0.png?raw=true)
+
+Let's go ahead and hit <Ctrl>+C to exit out of the running application if you have not already.
 
 Now issue the following command to open up the file where we will subsequently set a breakpoint to be hit whenever we create a new todo item.
 
@@ -459,11 +469,13 @@ Notice debug related information populate in the left side of the window as show
 
 We will demonstrate debugging by fixing a todo item that was entered although there are more powerful features that you can try. 
 
-Go to the new browser window you created and the application should be up and running. Hit enter after filling up a todo item as shown below.
+Go to the new browser window you created and the application should be up and running. Hit enter after filling up a todo item as shown below. The application freezes and you see a red square that signals the breakpoint has been hit.
 
 ![gitpod](images/tutorials/debug4.png?raw=true)
 
-You should hit the breakpoint as shown below. Cool!
+Now that you hit the breakpoint, Cool! Let's go back to the Gitpod window and verify if the breakpoint was really hit. You should see something like below.
+
+**👁️ Expected output**
 
 ![gitpod](images/tutorials/debug5.png?raw=true)
 
@@ -598,12 +610,12 @@ Login Succeeded
 
 ✅ **Step 10b: Adjust for containerization**
 
-We are using the `Jib` plugin for easy containerization. Copy the secure connect bundle to the directory that `Jib` will create on the container as below. We take advantage of the property of Jib plugin which automaticaly includes the relevant artifacts from the `src/main/jib` sub-directory as part of the process.
+We are using the `Jib` plugin for easy containerization. Copy the secure connect bundle to the directory that `Jib` will create on the container as below. We take advantage of the property of Jib plugin which automaticaly includes the relevant artifacts from the `src/main/jib` sub-directory as part of the process -- we include the secure connect bundle to be able to connect to the Astra database.
 
 
 ```bash
 mkdir -p src/main/jib/workspace/quarkus-astra-intro-demo/
-	cp secure-connect-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
+cp secure-connect-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
 ```
 
 ✅ **Step 10c: Containerize**
