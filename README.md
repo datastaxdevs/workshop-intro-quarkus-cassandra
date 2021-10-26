@@ -25,7 +25,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Discord chat](https://bit.ly/cassandra-workshop)
 - [Questions and Answers](https://community.datastax.com/)
 
-## Table of contents
+##0. Table of contents
 
 1. [Create Astra DB Instance](#1-create-astra-db-instance)
 2. [Create Astra Token](#2-create-astra-token)
@@ -89,6 +89,7 @@ The status will change to `Active` when the database is ready, this will only ta
 
 ![db-creation-walkthrough](images/tutorials/astra-create-db.gif?raw=true)
 
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 2. Create Astra Token
 
@@ -128,7 +129,7 @@ To know more about roles of each token you can have a look to [this video.](http
 
 We are now set with the database and credentials. Let's start coding with Quarkus!
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 3. Launch Gitpod
 
@@ -140,7 +141,7 @@ We are now set with the database and credentials. Let's start coding with Quarku
 
 _The screenshot may be slightly different based on your default skin and a few edits in the read me._
 
-![gitpod](images/tutorials/gitpod-01-home.png?raw=true)
+![gitpod](images/tutorials/gitpod-01-home-plain.png?raw=true)
 
 **That's it.** Gitpod provides all tools we will need today including `maven` and exposing port `8080`, ports `5005` which is used for debugging, etc. 
 
@@ -153,6 +154,17 @@ _The screenshot may be slightly different based on your default skin and a few e
 [🏠 Back to Table of Contents](#table-of-content)
 
 ## 4. Know your gitpod
+
+The estreme left side has the explorer view(1). The top left, middle to right is where you'll be editing files(2), etc. and the bottom left, middle to right is what we will refer to as the Gitpod terminal window(3) as shown below.
+
+**👁️ Expected output**
+
+![gitpod](images/tutorials/gitpod-01-home-annotated.png?raw=true)
+
+
+You can always get back to the file explorer view whenever by clicking on the hamburger menu on the top left followed by `View` and `Explorer` as shown below.
+
+![gitpod](images/tutorials/Filexplorer0.png?raw=true)
 
 ✅ **Step 6a: Know your public URL**
 
@@ -184,7 +196,7 @@ Or allow ports to be opened by just exiting windows that are informational messa
 ![gitpod](images/tutorials/OpenPorts.png?raw=true)
 
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 5. Setup your application
 
@@ -230,8 +242,10 @@ Locate the file locally in the finder/explorer window. Drag and drop the file in
 In the Gitpod terminal window, verify that you dropped the right file and at the top level directory
 
 ```bash
-ll secure-connect-workshops.zip
+ls -l secure-connect-workshops.zip
 ```
+
+The file size should be roughly 12K otherwise something may have gone wrong in the process.
 
 **👁️ Expected output**
 
@@ -241,7 +255,7 @@ ll secure-connect-workshops.zip
 
 TADA your application is now configured we can finally play with some code.
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 6. Run some unit test(s)
 
@@ -249,7 +263,7 @@ The application is now set you should be able to interact with your DB. Let's de
 
 ✅ **Step 6a: Use CqlSession**
 
-Interaction with Cassandra are implemented in Java through drivers and the main Class is `CqlSession`.
+Interaction with Cassandra is implemented in Java through drivers and the main Class is `CqlSession`.
 
 Higher level frameworks like Quarkus, Spring, Spring Data, rely on this object so let's make sure it is part of your context with a `@QuarkusTest`. Let's run this unit test in the Gitpod terminal window.
 
@@ -318,7 +332,7 @@ Picked up JAVA_TOOL_OPTIONS: -Xmx2576m
 [INFO] ------------------------------------------------------------------------
 ```
 
-Verfiy that the table did get created with the following command
+Verfiy that the table got created with the following command
 
 ```bash
 mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
@@ -331,7 +345,7 @@ mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
 ```
 
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 7. quarkus:dev and Hot Reloading
 
@@ -427,6 +441,8 @@ You can get Quarkus development metrics and so on hitting the `d` key as indicat
 
 You can always get out of development mode by hitting `q` or hitting <Ctrl>+C.
 
+[🏠 Back to Table of Contents](#0-table-of-content)
+
 ## 8. Debugging
 
 
@@ -488,6 +504,8 @@ Now, fix the entry spelling in debug mode by clicking on the left(>) arrow of `t
 You should see that the updated entry that you fixed with a debug session is what's persisted.
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
+
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 9. Packaging
 
@@ -585,6 +603,8 @@ You can play with the application from the new browser window you created in ste
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
+[🏠 Back to Table of Contents](#0-table-of-content)
+
 ## 10. Containerizing
 
 ✅ **Step 10a: docker login**
@@ -665,6 +685,8 @@ gp open target/kubernetes/kubernetes.yml
 ```
 
 It's left as an exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
+
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 11. Native Image
 
@@ -835,6 +857,7 @@ Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
 Notice the fast startup time since the image is running as a native image.
 
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 12. Homework
 
@@ -849,7 +872,7 @@ Don't forget to complete your upgrade and get your verified skill badge! Finish 
 
 That's it, you are done! Expect an email next week!
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-content)
 
 ## 13. The END
 
