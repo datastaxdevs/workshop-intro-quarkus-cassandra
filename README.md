@@ -167,6 +167,14 @@ launch a new browser window (**don't close it for the rest of the workshop since
 
 ![gitpod](images/tutorials/newbrowser1.png?raw=true)
 
+You can allow cutting and pasting into the window by clicking on `Allow` as shown below.
+
+![gitpod](images/tutorials/allow.png?raw=true)
+
+Or allow ports to be opened by just exiting windows that are informational messages about ports like below.
+
+![gitpod](images/tutorials/OpenPorts.png?raw=true)
+
 
 [🏠 Back to Table of Contents](#table-of-content)
 
@@ -325,7 +333,7 @@ In the Gitpod terminal window, We will begin the inner loop journey in dev mode 
 
 
 ```bash
-mvn quarkus:dev
+mvn quarkus:dev -DskipTests
 ```
 **👁️ Expected output**
 
@@ -413,13 +421,14 @@ You can always get out of development mode by hitting `q`.
 
 ## 8. Debugging
 
-✅ **Step 8a: Set breakpoint**
 
 You can always get back to the file explorer view whenever by clicking on the hamburger menu on the top left followed by `View` and `Explorer` as shown below.
 
 ![gitpod](images/tutorials/Filexplorer0.png?raw=true)
 
 Now issue the following command to open up the file where we will subsequently set a breakpoint to be hit whenever we create a new todo item.
+
+✅ **Step 8a: Set breakpoint**
 
 ```
 gp open src/main/java/com/datastaxdev/todo/AstraTODO.java 
@@ -433,12 +442,14 @@ Now navigate to line 60 and set a breakpoint by clicking to the left of the line
 If the application is not running in the Gitpod terminal window, re-run it with the following command and we will debug it live.
 
 ```bash
-mvn quarkus:dev
+mvn quarkus:dev -DskipTests
 ```
 
 ✅ **Step 8b: Start debugging**
 
-Now click on the arrow on the top left to start debugging as shown below.
+First, click on the debug button on the left towards top.
+
+Then, click on the arrow on the top left to start debugging as shown below.
 
 ![gitpod](images/tutorials/debug2.png?raw=true)
 
@@ -458,7 +469,7 @@ You should hit the breakpoint as shown below. Cool!
 
 ✅ **Step 8c: Use debugger features**
 
-Now, fix the entry spelling in debug mode by clicking on the down arrow of `todo`, double clicking on the `title` entry and entering `debugging`. Finally, hit arrow button in the top small middle pane in the center which will allow the application to continue as shown below.
+Now, fix the entry spelling in debug mode by clicking on the left(>) arrow of `todo`, double clicking on the `title` entry and entering `debugging`. Finally, hit arrow button in the top small middle pane in the center which will allow the application to continue as shown below.
 
 ![gitpod](images/tutorials/debug6.png?raw=true)
 
@@ -531,6 +542,7 @@ Picked up JAVA_TOOL_OPTIONS: -Xmx2576m
 [INFO] ------------------------------------------------------------------------
 ```
 
+
 ✅ **Step 9b: Run**
 
 You can run the recently packaged application as below.
@@ -558,6 +570,8 @@ __  ____  __  _____   ___  __ ____  ______
 ```
 
 You can play with the application from the new browser window you created in step 4.
+
+Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
 ## 10. Containerizing
 
@@ -589,7 +603,7 @@ We are using the `Jib` plugin for easy containerization. Copy the secure connect
 
 ```bash
 mkdir -p src/main/jib/workspace/quarkus-astra-intro-demo/
-cp secure-connector-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
+	cp secure-connect-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
 ```
 
 ✅ **Step 10c: Containerize**
@@ -620,6 +634,9 @@ You can execute the recently generated containerized image with the following co
 ```bash
 docker run -i --rm -p 8080:8080 gitpod/quarkus-cassandra:0.01
 ```
+
+Hit <Ctrl+C> in the GitPod terminal window to exit the application.
+
 ✅ **Step 10e: Push to Dockerhub**
 
 Let's not only build the containerized image but also push it to DockerHub (**be sure to substitute your docker ID**) with the following command.
@@ -782,7 +799,7 @@ Picked up JAVA_TOOL_OPTIONS: -Xmx2576m
 [INFO] Finished at: 2021-10-25T20:03:28Z
 [INFO] ------------------------------------------------------------------------
 ```
-
+Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
 ✅ **Step 11b: Running Native Image**
 
