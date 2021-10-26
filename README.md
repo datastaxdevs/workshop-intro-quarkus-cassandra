@@ -89,7 +89,7 @@ The status will change to `Active` when the database is ready, this will only ta
 
 ![db-creation-walkthrough](images/tutorials/astra-create-db.gif?raw=true)
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 2. Create Astra Token
 
@@ -129,7 +129,7 @@ To know more about roles, tokens, etc. you can lok at [this video.](https://www.
 
 We are now set with the database and credentials. Let's start coding with Quarkus!
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 3. Launch Gitpod
 
@@ -151,7 +151,7 @@ _The screenshot may be slightly different based on your default skin and a few e
 
 ![image](images/tutorials/gitpod-quarkus-1.jpg?raw=true)
 
-[🏠 Back to Table of Contents](#table-of-content)
+[🏠 Back to Table of Contents](#table-of-contents)
 
 ## 4. Know your gitpod
 
@@ -196,7 +196,7 @@ Or allow ports to be opened by just exiting windows that are informational messa
 ![gitpod](images/tutorials/OpenPorts.png?raw=true)
 
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 5. Setup your application
 
@@ -255,7 +255,7 @@ The file size should be roughly 12K otherwise something may have gone wrong in t
 
 TADA your application is now configured we can finally play with some code.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 6. Run some unit test(s)
 
@@ -346,7 +346,7 @@ mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
 
 Although a significant strength of the Quarkus platform is it's testing capabilities we will skip tests going foraward and focus on the other capabilities of the platform (perhaps, another workshop sometime focussed mainly on testing capabilities, assuming there is enough demand).
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 7. quarkus:dev and Hot Reloading
 
@@ -442,7 +442,7 @@ You can get Quarkus development metrics and so on hitting the `d` key as indicat
 
 You can always get out of development mode by hitting `q` or hitting <Ctrl>+C.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 8. Debugging
 
@@ -506,7 +506,7 @@ You should see that the updated entry that you fixed with a debug session is wha
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 9. Packaging
 
@@ -604,7 +604,7 @@ You can play with the application from the new browser window you created in ste
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 10. Containerizing
 
@@ -687,7 +687,7 @@ gp open target/kubernetes/kubernetes.yml
 
 It's left as an exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 11. Native Image
 
@@ -858,7 +858,7 @@ Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
 Notice the fast startup time since the image is running as a native image.
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 12. Homework
 
@@ -873,7 +873,7 @@ Don't forget to complete your upgrade and get your verified skill badge! Finish 
 
 That's it, you are done! Expect an email next week!
 
-[🏠 Back to Table of Contents](#0-table-of-content)
+[🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 13. The END
 
@@ -886,6 +886,7 @@ Congratulations, your made it to the END of the show.
 | ---------------------------------------------------------- | -------------------------------------------------- |
 | Rags Srinivas <br>[@ragsns](https://github.com/ragsns) | Stefano Lottini<br>[@hemidactylus](https://github.com/hemidactylus) |
 
+[🏠 Back to Table of Contents](#0-table-of-contents)
 ---
 
 [![thankyou](images/tutorials/thankyou.gif)]()
