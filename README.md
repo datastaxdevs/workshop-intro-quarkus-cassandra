@@ -12,6 +12,10 @@ The application we will be using is based on [Jake's port](https://github.com/tj
 
 ![SplashScreen](images/tutorials/splash-quarkus-cassandra.png?raw=true)
 
+a screenshot of this simple app is below.
+
+![AstraTodo](images/tutorials/AstraTodos.png?raw=true)
+
 ℹ️ **Objective(s) of workshop**
 
 Whether you're a seasoned programmer or relatively new to programming, you will be spending a lot of time in an Integrated Development Environment and the "inner loop" of development with a lightweight CI/CD cycle.
@@ -167,6 +171,8 @@ _The screenshot may be slightly different based on your default skin and a few e
 **👁️ Expected output**
 
 ![image](images/tutorials/gitpod-quarkus-1.jpg?raw=true)
+
+Although GitPod terminal might seem to be available, the setup might still be ongoing. Wait for a few minutes before entering commands in the GitPod terminal window.
 
 [🏠 Back to Table of Contents](#table-of-contents)
 
@@ -369,6 +375,18 @@ Although a significant strength of the Quarkus platform is it's testing capabili
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 7. quarkus:dev and Hot Reloading
+
+Before we get started let's check that the Graal VM is available.
+
+```
+echo $GRAALVM_HOME
+```
+
+**👁️ Expected output**
+
+```
+/home/gitpod/.sdkman/candidates/java/current
+```
 
 ✅ **Step 7a: Begin dev**
 
