@@ -6,16 +6,32 @@
 
 Today we showcase an application using **Apache Cassandra™** as a backend implemented with **Quarkus**, and experience some developer joy with features that often have been an envy for Java programmers - hot reloading, debugging, containerizing and finally generating native code.
 
-There are many other features of the Quarkus platform that we will not be looking into that are widely considered as unique strenghts of the platform including testing.
+There are many other features of the Quarkus platform that we will not be looking into that are widely considered as unique strengths of the platform including testing.
 
 The application we will be using is based on [Jake's port](https://github.com/tjake/todo-astra-react-serverless/) of the [TodoMVC code](https://github.com/tastejs/todomvc/tree/master/examples/react) originally written by [Pete Hunt](https://github.com/petehunt). The example is modified from [https://github.com/huksley/todo-react-ssr-serverless](https://github.com/huksley/todo-react-ssr-serverless).
 
 ![SplashScreen](images/tutorials/splash-quarkus-cassandra.png?raw=true)
 
+ℹ️ **Objective(s) of workshop**
+
+Whether you're a seasoned programmer or relatively new to programming, you will be spending a lot of time in an Integrated Development Environment and the "inner loop" of development with a lightweight CI/CD cycle.
+
+Once you have a stable environment after repeated iterations in the editor, testing environments, profiler, debugger, etc. you push it to the outer loop which has a more robust CI/CD cycle usually backed by gitops, Jenkins and other CI/CD tools.
+
+The objective of today's workshop is to understand how the Quarkus platform simplifies the "inner loop" of development which results in huge developer productivity gains. You will see in today's workshop you can go from plain old Java to containers with relative ease and yet not make a significant change in devlopment.
+
+Although, the Quarkus platform leverages the new reactive paradigm, the developer tools are drawn from a list that they are familar with and complements them. The focus is not so much on better programs (which is always necessary) but about the day-to-day life of a developer having to bridge the gap between their existing platforms and taking a plunge into microservices, service mesh and so on.
+
 ℹ️ **Frequently asked questions**
 
 - _Can I run the workshop on my computer?_
   > There is nothing preventing you from running the workshop on your own machine. If you do so, you will need _java jdk11+_, _Graal VM_, _Maven_, an IDE like _VSCode, IntelliJ, Eclipse, Spring STS_. You will have to adapt commands and paths based on your environment and install the dependencies by yourself. **We won't provide support** to keep on track with schedule.
+
+##  Prerequisites
+
+We strive to make our hands-on workshops prerequisites free -- who has the time to install prerequistes? :-)
+
+However, a docker login credential, some familiarity with Visual Studio and Giptod although not strictly necessary might help.
 
 ## Materials for the Session
 
@@ -24,6 +40,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Slide deck](./slides.pdf)
 - [Discord chat](https://bit.ly/cassandra-workshop)
 - [Questions and Answers](https://community.datastax.com/)
+- [Worskhop code] (https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 
 ## 0. Table of contents
 
@@ -155,6 +172,8 @@ _The screenshot may be slightly different based on your default skin and a few e
 
 ## 4. Know your gitpod
 
+Take a moment to read this entire section since it'll help you with the rest of the workshop as you'll be spending most of your time in Gitpod. If you're familiar with Gitpod, you can easily skip this entire section.
+
 The extreme left side has the explorer view(1). The top left, middle to right is where you'll be editing files(2), etc. and the bottom left, middle to right is what we will refer to as the Gitpod terminal window(3) as shown below.
 
 **👁️ Expected output**
@@ -178,7 +197,6 @@ gp url 8080
 
 ![gitpod](images/tutorials/gitpod-02-url.png?raw=true)
 
-You may encounter the following at different steps and although this may not be applicable right away, the steps are included **in advance** and summarized here so that you can keep an eye out for it. Different paths and different environments might be slightly different although Gipod levels the playing field a bit.
 
 Although the application is not running yet, 
 launch a new browser window (**don't close it for the rest of the workshop since you'll continually keep using this**. If you accidentally close it, just come back to this step. The browser will generate an error (due to application not running yet) which is fine for now as shown below.
@@ -186,6 +204,8 @@ launch a new browser window (**don't close it for the rest of the workshop since
 **👁️ Expected output**
 
 ![gitpod](images/tutorials/newbrowser1.png?raw=true)
+
+You may encounter the following at different steps and although this may not be applicable right away, the steps are included **in advance** and summarized here so that you can keep an eye out for it. Different paths and different environments might be slightly different although Gipod levels the playing field a bit.
 
 You can allow cutting and pasting into the window by clicking on `Allow` as shown below.
 
@@ -608,28 +628,7 @@ Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
 ## 10. Containerizing
 
-✅ **Step 10a: docker login**
-
-Login to Dockerhub to be able to push containerized images and to be able for you and the rest of the world to pull them
-
-```bash
-docker login
-```
-
-**Expected Output**
-
-```
-Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-Username: ragsns
-Password: 
-WARNING! Your password will be stored unencrypted in /home/gitpod/.docker/config.json.
-Configure a credential helper to remove this warning. See
-https://docs.docker.com/engine/reference/commandline/login/#credentials-store
-
-Login Succeeded
-```
-
-✅ **Step 10b: Adjust for containerization**
+✅ **Step 10a: Adjust for containerization**
 
 We are using the `Jib` plugin for easy containerization. Copy the secure connect bundle to the directory that `Jib` will create on the container as below. We take advantage of the property of Jib plugin which automaticaly includes the relevant artifacts from the `src/main/jib` sub-directory as part of the process -- we include the secure connect bundle to be able to connect to the Astra database.
 
@@ -639,7 +638,7 @@ mkdir -p src/main/jib/workspace/quarkus-astra-intro-demo/
 cp secure-connect-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
 ```
 
-✅ **Step 10c: Containerize**
+✅ **Step 10b: Containerize**
 
 Let's containerize the application with the following command.
 
@@ -660,7 +659,7 @@ REPOSITORY                 TAG       IMAGE ID       CREATED          SIZE
 gitpod/quarkus-cassandra   0.01      77431983359a   26 seconds ago   216MB
 ```
 
-✅ **Step 10d: Run the containerized image**
+✅ **Step 10c: Run the containerized image**
 
 You can execute the recently generated containerized image with the following command.
 
@@ -669,6 +668,30 @@ docker run -i --rm -p 8080:8080 gitpod/quarkus-cassandra:0.01
 ```
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
+
+✅ **Step 10d: docker login [OPTIONAL] **
+
+Login to Dockerhub to be able to push containerized images and to be able for you and the rest of the world to pull them.
+
+If you do not have a docker login credential you can skip this step and go right to [Native Image](#11-native-image)
+
+```bash
+docker login
+```
+
+**Expected Output**
+
+```
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: ragsns
+Password: 
+WARNING! Your password will be stored unencrypted in /home/gitpod/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
+
 
 ✅ **Step 10e: Push to Dockerhub**
 
@@ -864,10 +887,11 @@ Notice the fast startup time since the image is running as a native image.
 
 <img src="images/tutorials/badge.png?raw=true" width="200" align="right" />
 
-Don't forget to complete your upgrade and get your verified skill badge! Finish and submit your homework!
+Don't forget to complete your upgrade and get your verified skill badge! Finish and submit your homework! You have 2 options (option A or Option B). Pick whichever works for you.
 
-1. Complete the practice steps from this repository as described above. Make screenshots alongside the steps
-2. Learn more about Quarkus and do some development with https://github.com/datastax/cassandra-quarkus. Personalize/customize the following page(s) which is displayed when you use  wrong endpoint (like `xyz`)
+Option A. Complete the practice steps from this repository as described above (including optional steps 10d and 10e) and deploy to a Kubernetes cluster.  Make screenshots of the deployment to a Kubernetes cluster.
+
+Option B: Learn more about Quarkus and do some development with https://github.com/datastax/cassandra-quarkus. Send a screenshot of the working "Fruits application" with the following entry "Jackfruit" and the correpsonding description as "King/Queen of fruits".
 
 3. Submit your homework [here](https://github.com/datastaxdevs/workshop-intro-quarkus-cassandra/issues/new?assignees=ragsns&labels=homework%2Cpending&template=homework-assignment.md&title=%5BHW%5D+%3CNAME%3E)
 
