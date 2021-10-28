@@ -687,7 +687,7 @@ docker run -i --rm -p 8080:8080 gitpod/quarkus-cassandra:0.01
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
-✅ **Step 10d: docker login [OPTIONAL] **
+✅ **Step 10d: docker login [OPTIONAL]**
 
 Login to Dockerhub to be able to push containerized images and to be able for you and the rest of the world to pull them.
 
