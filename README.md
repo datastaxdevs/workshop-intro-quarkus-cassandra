@@ -799,6 +799,9 @@ Alternately, you can access the application provided by the gitpod URLlike we ha
 ```
 kubectl port-forward svc/quarkus-cassandra 8080:80 &
 ```
+
+**Step F**: Cleanup as below.
+
 You can stop the port forwarding by deleting the background job as below.
 
 ```
