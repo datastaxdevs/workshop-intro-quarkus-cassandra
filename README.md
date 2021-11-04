@@ -726,7 +726,7 @@ Issue the following command in the Gitpod terminal window to look at the Kuberne
 gp open target/kubernetes/kubernetes.yml
 ```
 
-It's left as an exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
+It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
