@@ -740,7 +740,7 @@ However, we've included some sketchy steps here using okteto (you can modify the
 
 **Step C**: Now "drag and drop" it over to the gitpod window (similar to how we transferred the secure connect bundle) as shown below.
 
-![okteto](images/tutorials/oktetoconfig1.png?raw=true)
+![okteto](images/tutorials/oktetoconfig2.png?raw=true)
 
 **Step D**: Use the transferred okteto config file with the following command in the Gitpod terminal window and verify
 
