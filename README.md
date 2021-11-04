@@ -726,8 +726,96 @@ Issue the following command in the Gitpod terminal window to look at the Kuberne
 gp open target/kubernetes/kubernetes.yml
 ```
 
+✅ **Step 10f: Stand up application in Kubernetes(optional)**
+
 It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
 
+However, we've included some sketchy steps here using okteto (you can modify the steps below depending on your choice of provider).
+
+**Step A**: Create a Kubernetes cluster. You can get one for free at [okteto.com] (okteto.com) with your Github credentials.
+
+**Step B**: Download the `config` file from [https://cloud.okteto.com/#/settings/setup] (https://cloud.okteto.com/#/settings/setup) locally as shown below.
+
+![okteto](images/tutorials/oktetoconfig1.png?raw=true)
+
+**Step C**: Now "drag and drop" it over to the gitpod window (similar to how we transferred the secure connect bundle) as shown below.
+
+![okteto](images/tutorials/oktetoconfig1.png?raw=true)
+
+**Step D**: Use the transferred okteto config file with the following command in the Gitpod terminal window and verify
+
+```bash
+export KUBECONFIG=okteto-kube.config
+kubectl get all
+```
+
+Since okteto only provides access to your namespace, you should see something like below and you won't be able to run other commands like you would normally with a cluster that you created.
+
+```
+No resources found in ragsns namespace.
+```
+
+**Step E**: Let's stand up the application with the following command issued from the Gitpod terminal window.
+
+```
+kubectl apply -f target/kubernetes/kubernetes.yml
+```
+
+You should see the following output which indicates the deployment and the service being created.
+
+```
+service/quarkus-cassandra created
+deployment.apps/quarkus-cassandra created
+```
+
+Running the command
+
+```bash
+kubectl get all
+```
+
+should yield a different output as below.
+
+```
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/quarkus-cassandra-5f4d69b8d-lx46l   1/1     Running   0          95s
+
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/quarkus-cassandra   ClusterIP   10.154.219.218   <none>        80/TCP    96s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/quarkus-cassandra   1/1     1            1           96s
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/quarkus-cassandra-5f4d69b8d   1         1         1       96s
+```
+
+You should be able to access the application from the endpoint provided by the [okteto console](https://cloud.okteto.com/#/spaces) and also be able to access the application logs as shown below.
+
+![okteto](images/tutorials/oktetorunning1.png?raw=true)
+
+Alternately, you can access the application provided by the gitpod URLlike we have always been doing throughout the workshop by issuing the following command.
+
+```
+kubectl port-forward svc/quarkus-cassandra 8080:80 &
+```
+You can stop the port forwarding by deleting the background job as below.
+
+```
+kill -9 %1
+``` 
+
+You can go ahead and get rid of the application as well with the following command from the Gitpod terminal window.
+
+```
+kubectl delete -f target/kubernetes/kubernetes.yml
+```
+and you should see the following output.
+
+```
+service "quarkus-cassandra" deleted
+deployment.apps "quarkus-cassandra" deleted
+```
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 11. Native Image
