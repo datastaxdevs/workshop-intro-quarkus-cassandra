@@ -794,7 +794,7 @@ You should be able to access the application from the endpoint provided by the [
 
 ![okteto](images/tutorials/oktetorunning1.png?raw=true)
 
-Alternately, you can access the application provided by the gitpod URLlike we have always been doing throughout the workshop by issuing the following command.
+Alternately, you can access the application provided by the gitpod URL like we have always been doing throughout the workshop by issuing the following command.
 
 ```
 kubectl port-forward svc/quarkus-cassandra 8080:80 &
