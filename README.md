@@ -732,7 +732,7 @@ It's left as an optional exercise to the attendee to deploy this to a Kubernetes
 
 However, we've included some sketchy steps here using okteto (you can modify the steps below depending on your choice of provider).
 
-**Step A**: Create a Kubernetes cluster. You can get one for free at [okteto.com](okteto.com) with your Github credentials.
+**Step A**: Create a Kubernetes cluster. You can get one for free at [https://okteto.com](https://okteto.com) with your Github credentials.
 
 **Step B**: Download the `config` file from [https://cloud.okteto.com/#/settings/setup](https://cloud.okteto.com/#/settings/setup) locally as shown below.
 
