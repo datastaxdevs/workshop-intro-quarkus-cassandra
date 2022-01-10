@@ -755,14 +755,28 @@ Since okteto only provides access to your namespace, you should see something li
 ```
 No resources found in ragsns namespace.
 ```
+**Step E**: The `applications.properties` file is setup to use the Kubernetes secrets already. Setup the Kubernetes secrets as below from the `Client Id` and `Client Secret` respectively as we did earlier.
 
-**Step E**: Let's stand up the application with the following command issued from the Gitpod terminal window.
+```
+kubectl create secret generic astra --from-literal=astra-username=<Client Id> --from-literal=astra-password=<Client Secret>
+```
+
+The `kubernetes.yml` deployment file will be setup to use the secrets.
+
+**Step F**: Let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
+
+```
+mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=ragsns -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
+```
+
+
+**Step G**: Let's stand up the application with the following command issued from the Gitpod terminal window.
 
 ```
 kubectl apply -f target/kubernetes/kubernetes.yml
 ```
 
-You should see the following output which indicates the deployment and the service being created.
+You should see the following output which indicates the deployment and the service being created. **You can ignore errors related to webhook.**
 
 ```
 service/quarkus-cassandra created
@@ -801,7 +815,7 @@ Alternately, you can access the application provided by the gitpod URL like we h
 kubectl port-forward svc/quarkus-cassandra 8080:80 &
 ```
 
-**Step F**: Cleanup as below.
+**Step H**: Cleanup as below.
 
 You can stop the port forwarding by deleting the background job as below.
 
@@ -820,6 +834,9 @@ and you should see the following output.
 service "quarkus-cassandra" deleted
 deployment.apps "quarkus-cassandra" deleted
 ```
+
+If the public docker image contains the credentials to be able to access the database, it's a good idea to delete the docker image [from docker hub](http://hub.docker.com) right away, anyway.
+
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 11. Native Image
