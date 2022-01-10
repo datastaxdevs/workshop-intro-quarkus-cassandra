@@ -746,6 +746,7 @@ However, we've included some sketchy steps here using okteto (you can modify the
 
 ```bash
 export KUBECONFIG=okteto-kube.config
+kubectl config get-contexts
 kubectl get all
 ```
 
