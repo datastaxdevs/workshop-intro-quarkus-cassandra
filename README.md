@@ -710,14 +710,28 @@ https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 Login Succeeded
 ```
 
+Get the Docker ID as below.
+
+```bash
+docker system info | grep -E 'Username' || echo "you have not done a docker login(yet)"
+DOCKER_LOGINID=$(docker system info | grep -E 'Username' | awk '{print $2}')
+echo "Docker login ID that will be used: " "$DOCKER_LOGINID"
+```
+
+You should see an output of your Docker Login ID. If you do not see this repeat this step from the beginning.
+
+```
+Docker login ID that will be used:  ragsns
+```
 
 ✅ **Step 10e: Push to Dockerhub**
 
-Let's not only build the containerized image but also push it to DockerHub (**be sure to substitute your docker ID**) with the following command.
+Let's not only build the containerized image but also push it to DockerHub (**be sure to substitute the group with docker ID**) with the following command.
 
 ```bash
-mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=<dockerhub-username> -Dquarkus.container-runtime=docker -DskipTests
+mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -DskipTests
 ```
+
 In today's world of microservices and service meshes, it's all about deploying to Kubernetes.
 
 Issue the following command in the Gitpod terminal window to look at the Kubernetes manifests that are automatically generated.
@@ -755,22 +769,68 @@ Since okteto only provides access to your namespace, you should see something li
 ```
 No resources found in ragsns namespace.
 ```
+
 **Step E**: The `applications.properties` file is setup to use the Kubernetes secrets already. Setup the Kubernetes secrets as below from the `Client Id` and `Client Secret` respectively as we did earlier.
 
 ```
 kubectl create secret generic astra --from-literal=astra-username=<Client Id> --from-literal=astra-password=<Client Secret>
 ```
 
-The `kubernetes.yml` deployment file will be setup to use the secrets.
+Verify the screts are setup properly with the following commands.
 
-**Step F**: Let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
+```bash
+kubectl get secret astra -o jsonpath="{.data.astra-username}" | base64 --decode
+kubectl get secret astra -o jsonpath="{.data.astra-password}" | base64 --decode
+```
+
+The `kubernetes.yml` deployment file that will be generated in the next step will be setup to use the secrets.
+
+**Step F**: Quarkus includes the kubernetes-config extension which allows developers to use Kubernetes ConfigMaps and Secrets as a configuration source. To use this update `pom.xml` with the following command in the Gitpod ternimal window as below.
+
+```bash
+mvn quarkus:add-extension -Dextensions="kubernetes-config"
+```
+
+and verify with the following command
+
+```bash
+git diff pom.xml
+```
+
+which should output something like below
+
+```bash
+diff --git a/pom.xml b/pom.xml
+index 371e35e..4b842d8 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -63,6 +63,10 @@
+       <groupId>io.quarkus</groupId>
+       <artifactId>quarkus-smallrye-health</artifactId>
+     </dependency>
++    <dependency>
++      <groupId>io.quarkus</groupId>
++      <artifactId>quarkus-kubernetes-config</artifactId>
++    </dependency>
+     <dependency>
+       <groupId>io.quarkus</groupId>
+       <artifactId>quarkus-junit5</artifactId>
+```
+
+**Step G**: Let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
 
 ```
-mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=ragsns -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
+mvn clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
 ```
 
+You may want to remove the actual values of secrets from the `application.properties` file as below before pushing the container image to a public registry. 
 
-**Step G**: Let's stand up the application with the following command issued from the Gitpod terminal window.
+```
+sed -i '/TBD:/,+3 d' ./target/classes/application.properties
+mvn package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
+```
+
+**Step H**: Let's stand up the application with the following command issued from the Gitpod terminal window.
 
 ```
 kubectl apply -f target/kubernetes/kubernetes.yml
@@ -815,7 +875,7 @@ Alternately, you can access the application provided by the gitpod URL like we h
 kubectl port-forward svc/quarkus-cassandra 8080:80 &
 ```
 
-**Step H**: Cleanup as below.
+**Step I**: Cleanup as below.
 
 You can stop the port forwarding by deleting the background job as below.
 
