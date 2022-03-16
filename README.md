@@ -489,7 +489,7 @@ You can always get back to the file explorer view whenever by clicking on the ha
 
 ![gitpod](images/tutorials/Filexplorer0.png?raw=true)
 
-Let's go ahead and hit <Ctrl>+C to exit out of the running application if you have not already.
+Let's go ahead and hit Ctrl+C to exit out of the running application if you have not already.
 
 Now issue the following command to open up the file where we will subsequently set a breakpoint to be hit whenever we create a new todo item.
 
