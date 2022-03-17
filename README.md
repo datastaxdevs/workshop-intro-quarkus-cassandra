@@ -460,7 +460,11 @@ Tests paused
 Press [r] to resume testing, [o] Toggle test output, [:] for the terminal, [h] for more options>
 ```
 
-You can try the different options available. 
+You can try the different options available.
+
+Note that you may have to allow popups from `gitpod.io` as shown below.
+
+![gitpod](images/tutorials/quarkus-dev-0.png?raw=true)
 
 Try connecting to the application in a browser by pressing the `w` key as indicated above. This should bring up the application as below.
 
@@ -497,7 +501,23 @@ You can get Quarkus development metrics and so on hitting the `d` key as indicat
 
 ![gitpod](images/tutorials/quarkus-dev-4.png?raw=true)
 
-You can always get out of development mode by hitting `q` or hitting <Ctrl>+C.
+> The `/q/dev` end point can be accessed using the URL below when the application is running in `dev` mode. You can use another `bash` tab in the gitpod terminal window to enter the commands while the application is running and switch between tabs as required.
+
+```
+echo $(gp url 8080)/q/dev
+```
+
+and the `openapi` spec is at
+
+```
+echo $(gp url 8080)/q/openapi
+```
+
+as shown below.
+
+![gitpod](images/tutorials/quarkus-dev-5.png?raw=true)
+
+You can get out of development mode by hitting `q` or hitting <Ctrl>+C.
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
@@ -705,7 +725,7 @@ docker run -i --rm -p 8080:8080 gitpod/quarkus-cassandra:0.01
 
 Hit <Ctrl+C> in the GitPod terminal window to exit the application.
 
-✅ **Step 10d: docker login [OPTIONAL]**
+✅ **Step 10d: docker login**
 
 Login to Dockerhub to be able to push containerized images and to be able for you and the rest of the world to pull them.
 
@@ -835,7 +855,14 @@ index 371e35e..4b842d8 100644
        <artifactId>quarkus-junit5</artifactId>
 ```
 
-**Step G**: Let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
+**Step G**:
+Ensure that `DOCKER_LOGINID` was set in the earlier step as below and the command should output the Docker login ID.
+
+```
+echo $DOCKER_LOGINID
+```
+
+Next, let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
 
 ```
 ./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
