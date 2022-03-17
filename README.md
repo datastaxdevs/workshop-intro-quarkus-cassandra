@@ -871,7 +871,7 @@ Next, let's generate the containerized image with the secrets as below. The key 
 You may want to remove the actual values of secrets from the `application.properties` file as below before pushing the container image to a public registry. 
 
 ```
-sed -i '/TBD:/,+3 d' ./target/classes/application.properties
+sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
 ./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
 ```
 
