@@ -798,6 +798,8 @@ kubectl config get-contexts
 kubectl get all
 ```
 
+If you get a message like `error: You must be logged in to the server (Unauthorized)` reauthorize and download the `okteto-kube.config` file again.
+
 Since okteto only provides access to your namespace, you should see something like below and you won't be able to run other commands like you would normally with a cluster that you created.
 
 ```
