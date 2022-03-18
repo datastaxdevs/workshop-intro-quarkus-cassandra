@@ -699,7 +699,7 @@ cp secure-connect-workshops.zip src/main/jib/workspace/quarkus-astra-intro-demo/
 Let's containerize the application with the following command.
 
 ```bash
-./mvnw clean package -Dquarkus.container-image.build=true  -Dquarkus.container-runtime=docker -DskipTests
+./mvnw clean package -Dquarkus.container-image.build=true -DskipTests
 ```
 
 Once complete, check that the image exists on your local repository with the following command:
@@ -767,22 +767,18 @@ Docker login ID that will be used:  ragsns
 Let's not only build the containerized image but also push it to DockerHub (**be sure to substitute the group with docker ID**) with the following command.
 
 ```bash
-./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -DskipTests
+./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
-In today's world of microservices and service meshes, it's all about deploying to Kubernetes.
+> **NOTE:** If the repo in your Docker Hub account didn't previously exist it will be created for you as a _private_ repo. You will need to go into your Docker Hub account and make the repo public.
 
-Issue the following command in the Gitpod terminal window to look at the Kubernetes manifests that are automatically generated.
-
-```
-gp open target/kubernetes/kubernetes.yml
-```
+In today's world of microservices and service meshes, it's all about deploying to Kubernetes. Quarkus gives us an easy way to do that!
 
 ✅ **Step 10f: Stand up application in Kubernetes(optional)**
 
-It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster using the generated manifests in the sub-directory `target/kubernetes/`.
+It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster`.
 
-However, we've included some sketchy steps here using [okteto](https://www.okteto.com) (you can modify the steps below depending on your choice of provider).
+However, we've included some steps here using [okteto](https://www.okteto.com) (you can modify the steps below depending on your choice of provider).
 
 **Step A**: Create a Kubernetes cluster. You can get one for free at [https://okteto.com](https://okteto.com) with your Github credentials.
 
@@ -808,7 +804,7 @@ Since okteto only provides access to your namespace, you should see something li
 No resources found in ragsns namespace.
 ```
 
-**Step E**: The `application.properties` file is setup to use the Kubernetes secrets already. Setup the Kubernetes secrets as below from the `Client Id` and `Client Secret` respectively as we did earlier.
+**Step E**: The `application.properties` file is setup to use the Kubernetes secrets already (`quarkus.kubernetes.env.secrets=astra`). Setup the Kubernetes secrets as below from the`Client Id` and `Client Secret` respectively as we did earlier.
 
 ```
 kubectl create secret generic astra --from-literal=astra-username=<Client Id> --from-literal=astra-password=<Client Secret>
@@ -823,10 +819,10 @@ kubectl get secret astra -o jsonpath="{.data.astra-password}" | base64 --decode
 
 The `kubernetes.yml` deployment file that will be generated in the next step will be setup to use the secrets.
 
-**Step F**: Quarkus includes the kubernetes-config extension which allows developers to use Kubernetes ConfigMaps and Secrets as a configuration source. To use this update `pom.xml` with the following command in the Gitpod ternimal window as below.
+**Step F**: Quarkus includes the [Kubernetes extension](https://quarkus.io/guides/deploying-to-kubernetes), allowing developers to deploy directly to Kubernetes and use Kubernetes `ConfigMap`s and `Secret`s as configuration sources. To use this update `pom.xml` with the following command in the Gitpod ternimal window as below.
 
 ```bash
-./mvnw quarkus:add-extension -Dextensions="kubernetes-config"
+./mvnw quarkus:add-extension -Dextensions="kubernetes"
 ```
 
 and verify with the following command
@@ -835,24 +831,17 @@ and verify with the following command
 git diff pom.xml
 ```
 
-which should output something like below
+which should that the `io.quarkus:quarkus-kubernetes` dependency has been added.
 
 ```bash
 diff --git a/pom.xml b/pom.xml
 index 371e35e..4b842d8 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -63,6 +63,10 @@
-       <groupId>io.quarkus</groupId>
-       <artifactId>quarkus-smallrye-health</artifactId>
-     </dependency>
 +    <dependency>
 +      <groupId>io.quarkus</groupId>
-+      <artifactId>quarkus-kubernetes-config</artifactId>
++      <artifactId>quarkus-kubernetes</artifactId>
 +    </dependency>
-     <dependency>
-       <groupId>io.quarkus</groupId>
-       <artifactId>quarkus-junit5</artifactId>
 ```
 
 **Step G**:
@@ -862,30 +851,36 @@ Ensure that `DOCKER_LOGINID` was set in the earlier step as below and the comman
 echo $DOCKER_LOGINID
 ```
 
-Next, let's generate the containerized image with the secrets as below. The key is to enable `quarkus.kubernetes-config.secrets.enabled` to `true` as below.
+Next, let's generate the containerized image with the secrets as below.
 
 ```
-./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
+./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
-You may want to remove the actual values of secrets from the `application.properties` file as below before pushing the container image to a public registry. 
+You may want to remove the actual values of `astra-username` and `astra-password` from the`application.properties` file as below before pushing the container image to a public registry.
 
 ```
 sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
-./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.container-runtime=docker -Dquarkus.kubernetes-config.secrets.enabled=true -DskipTests
+./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -Dquarkus.kubernetes.deploy=true -DskipTests
 ```
 
-**Step H**: Let's stand up the application with the following command issued from the Gitpod terminal window.
+The result of this command will be that your application's container image is built, pushed to the registry, and then deployed on Kubernetes. The Quarkus Kubernetes extension generates all the necessary Kubernetes desriptors for you.
+
+Issue the following command in the Gitpod terminal window to look at the Kubernetes manifests that were automatically generated and applied to the cluster.
 
 ```
-kubectl apply -f target/kubernetes/kubernetes.yml
+gp open target/kubernetes/kubernetes.yml
 ```
 
-You should see the following output which indicates the deployment and the service being created. **You can ignore errors related to webhook.**
+You should see the following output which indicates the deployment and the service have been created. **You can ignore errors related to webhook.**
 
 ```
-service/quarkus-cassandra created
-deployment.apps/quarkus-cassandra created
+[INFO] [io.quarkus.container.image.jib.deployment.JibProcessor] Pushed container image xxx/quarkus-cassandra:0.01 (sha256:xxxxxx)
+
+[INFO] [io.quarkus.kubernetes.deployment.KubernetesDeployer] Deploying to kubernetes server: https://a.b.c.d:443/ in namespace: xxxx.
+[INFO] [io.quarkus.kubernetes.deployment.KubernetesDeployer] Applied: Service quarkus-cassandra.
+[INFO] [io.quarkus.kubernetes.deployment.KubernetesDeployer] Applied: Deployment quarkus-cassandra.
+[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 12904ms
 ```
 
 Running the command
@@ -931,11 +926,13 @@ kill -9 %1
 You can go ahead and get rid of the application as well with the following command from the Gitpod terminal window.
 
 ```
-kubectl delete -f target/kubernetes/kubernetes.yml
+kubectl delete all --all
 ```
+
 and you should see the following output.
 
 ```
+pod "quarkus-cassandra-886d9f8b9-h7tw5" deleted
 service "quarkus-cassandra" deleted
 deployment.apps "quarkus-cassandra" deleted
 ```
