@@ -1129,7 +1129,7 @@ Option A. Complete the practice steps from this repository as described above (i
 
 Option B: Learn more about Quarkus and do some development with https://github.com/datastax/cassandra-quarkus. Send a screenshot of the working "Fruits application" with the following entry "Jackfruit" and the correpsonding description as "King/Queen of fruits".
 
-3. Submit your homework [here](https://github.com/datastaxdevs/workshop-intro-quarkus-cassandra/issues/new?assignees=ragsns&labels=homework%2Cpending&template=homework-assignment.md&title=%5BHW%5D+%3CNAME%3E)
+3. Submit your homework [here](https://docs.google.com/forms/d/e/1FAIpQLSd3hMHgHURsNGq2-jDAIr-XPLJGHqaRAm9CAMkYveybuYfBRw/viewform)
 
 That's it, you are done! Expect an email next week!
 
