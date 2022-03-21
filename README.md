@@ -44,7 +44,7 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Slide deck](./slides.pdf)
 - [Discord chat](https://bit.ly/cassandra-workshop)
 - [Questions and Answers](https://community.datastax.com/)
-- [Worskhop code](https://github.com/datastaxdevs/quarkus-astra-intro-demo)
+- [Workshop code](https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 
 ## 0. Table of contents
 
@@ -1142,9 +1142,9 @@ Congratulations, your made it to the END of the show.
 
 **🧑🏻‍🤝‍🧑🏽 Let's get in touch**
 
-| ![B](images/tutorials/rags.png)                           | ![B](images/tutorials/stefano.png)                 |
-| ---------------------------------------------------------- | -------------------------------------------------- |
-| Rags Srinivas <br>[@ragsns](https://github.com/ragsns) | Stefano Lottini<br>[@hemidactylus](https://github.com/hemidactylus) |
+| ![B](images/tutorials/rags.png)                           |
+| ---------------------------------------------------------- |
+| Rags Srinivas <br>[@ragsns](https://github.com/ragsns) |
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
 ---
