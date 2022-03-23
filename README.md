@@ -686,7 +686,7 @@ Hit `Ctrl+C` in the GitPod terminal window to exit the application.
 
 ✅ **Step 10a: Adjust for containerization**
 
-We are using the [Quarkus Jib container extension](https://quarkus.io/guides/container-image#jib)n for easy containerization. Copy the secure connect bundle to the directory that Jib will create on the container as below. We take advantage of the property of Jib plugin which automaticaly includes the relevant artifacts from the `src/main/jib` sub-directory as part of the process -- we include the secure connect bundle to be able to connect to the Astra database.
+We are using the [Quarkus Jib container extension](https://quarkus.io/guides/container-image#jib) for easy containerization. Copy the secure connect bundle to the directory that Jib will create on the container as below. We take advantage of the property of Jib plugin which automaticaly includes the relevant artifacts from the `src/main/jib` sub-directory as part of the process -- we include the secure connect bundle to be able to connect to the Astra database.
 
 
 ```bash
