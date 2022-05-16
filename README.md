@@ -24,7 +24,7 @@ Once you have a stable environment after repeated iterations in the editor, test
 
 The objective of today's workshop is to understand how the Quarkus platform simplifies the "inner loop" of development which results in huge developer productivity gains. You will see in today's workshop you can go from plain old Java to containers with relative ease and yet not make a significant change in devlopment.
 
-Although, the Quarkus platform leverages the new reactive paradigm, the developer tools are drawn from a list that they are familar with and complements them while making those same tools leaner and more performant. This helps to build better and more performant applications (which is always necessary) and also enhances the day-to-day life of a developer having to bridge the gap between their existing platforms and taking a plunge into microservices, service mesh and so on.
+Although, the Quarkus platform leverages a reactive architecture, the developer tools are drawn from a list that they are familar with and complements them while making those same tools leaner and more performant. This means that Quarkus does not force developers to use reactive programming styles. Additionally, it helps to build better and more performant applications (which is always necessary) and also enhances the day-to-day life of a developer having to bridge the gap between their existing platforms and taking a plunge into microservices, service mesh and so on. Developers can use their current tools and methodologies and let Quarkus take care of being "reactive", or build new fully-reactive applications that take advantage of Quarkus' reactive core.
 
 ℹ️ **Frequently asked questions**
 
@@ -35,7 +35,7 @@ Although, the Quarkus platform leverages the new reactive paradigm, the develope
 
 We strive to make our hands-on workshops prerequisites free -- who has the time to install prerequistes? :-)
 
-However, a docker login credential, some familiarity with [Visual Studio Code](https://code.visualstudio.com) and [Giptod](https://gitpod.io) (although not strictly necessary) might help.
+However, docker login credentials, some familiarity with [Visual Studio Code](https://code.visualstudio.com) and [Giptod](https://gitpod.io) (although not strictly necessary) might help.
 
 ## Materials for the Session
 
@@ -88,16 +88,16 @@ To create the database:
 
 - **For the keyspace name** - `todolist`. It's really important that you use the name "todolist" for the code to work. In short:
 
-| Parameter | Value 
-|---|---|
+| Parameter     | Value     |
+|---------------|-----------|
 | Database name | workshops |
-| Keyspace name | todolist |
+| Keyspace name | todolist  |
 
 _You can technically use whatever you want and update the code to reflect the keyspace. This is really to get you on a happy path for the first run._
 
 - **For provider and region**: Choose any provider (either GCP, AWS or Azure). Region is where your database will reside physically (choose one close to you or your users).
 
-> **NOTE:** You may see that only certain GCP regions are available unless you go in an unlock all the other GCP regions and AWS/Azure. If you see that, for the purposes of this workshop, please select one of the available GCP regions.
+> **NOTE:** You may see that only certain GCP regions are available unless you go in and unlock all the other GCP regions and AWS/Azure. If you see that, for the purposes of this workshop, please select one of the available GCP regions.
 
 - **Create the database**. Review all the fields to make sure they are as shown, and click the `Create Database` button.
 
@@ -133,7 +133,7 @@ Following the [Manage Application Tokens docs](https://docs.datastax.com/en/astr
 
 ![image](images/tutorials/astra-create-token.gif?raw=true)
 
-This is what the token page looks like. You can now download the values as a CSV. We will need those values but you can also keep this window open for use later.
+This is what the token page looks like. You can now download the values as a CSV. We will need those values, but you can also keep this window open for use later.
 
 ![image](images/tutorials/astra-token.png?raw=true)
 
@@ -241,7 +241,7 @@ gp open src/main/resources/application.properties
 ✅ **Step 5a: Enter 2 values from the token**
 
 
-Enter the values of `Client Id` and `Client Secret` from values noted earlier for `username` and `password` respectively. The two lines with a TBD in comments is shown below.
+Enter the values of `Client Id` and `Client Secret` from values noted earlier for `astra-username` and `astra-password` respectively. The two lines with a TBD in comments is shown below.
 
 ![gitpod](images/tutorials/editapplicationproperties2.png?raw=true)
 
@@ -286,16 +286,14 @@ TADA your application is now configured we can finally play with some code.
 
 ## 6. Run some unit test(s)
 
-The application is now set you should be able to interact with your DB. Let's demonstrate some capabilities. 
+The application is now set and you should be able to interact with your DB, although connecting to a "real" DB is not necessary in order to execute tests. The application's tests use the [Quarkus Cassandra Test Framework](https://github.com/datastax/cassandra-quarkus/tree/main/test-framework). Quarkus will automatically bootstrap a Cassandra Docker container and connect it to the application when the tests execute.
 
-✅ **Step 6a: Use CqlSession**
+Under the covers, all interaction with Cassandra is implemented in Java through the `com.datastax.oss.driver.api.core.CqlSession`, part of the [DataStax Java Driver](https://docs.datastax.com/en/developer/java-driver/latest). Higher level frameworks like Quarkus, Spring, Spring Data, rely on this object. The [Quarkus Cassandra Test Framework](https://github.com/datastax/cassandra-quarkus/tree/main/test-framework) makes sure its available to the tests.
 
-Interaction with Cassandra is implemented in Java through drivers and the main Class is `CqlSession`.
-
-Higher level frameworks like Quarkus, Spring, Spring Data, rely on this object so let's make sure it is part of your context with a `@QuarkusTest`. Let's run this unit test in the Gitpod terminal window.
+Let's run this unit test in the Gitpod terminal window.
 
 ```bash
-./mvnw test -Dtest=com.datastaxdev.AstraDemoCQLTest
+./mvnw test -Dtest=com.datastaxdev.todo.rest.TodoResourceTests
 ```
 
 **👁️ Expected output**
@@ -312,16 +310,16 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 24 resources
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ quarkus-astra-intro-demo ---
 [INFO] Nothing to compile - all classes are up to date
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ quarkus-astra-intro-demo ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /workspace/quarkus-astra-intro-demo/src/test/resources
+[INFO] Copying 1 resource
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ quarkus-astra-intro-demo ---
 [INFO] Nothing to compile - all classes are up to date
@@ -332,45 +330,87 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [ERROR] Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
-[INFO] Running com.datastaxdev.AstraDemoCQLTest
+[INFO] Running com.datastaxdev.todo.rest.TodoResourceTests
 INFO  [org.jbo.threads] (main) JBoss Threads version 3.4.2.Final
-WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes-config.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+INFO  [org.tes.uti.ImageNameSubstitutor] (main) Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+INFO  [org.tes.doc.DockerClientProviderStrategy] (pool-4-thread-1) Loaded org.testcontainers.dockerclient.UnixSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+INFO  [org.tes.doc.DockerClientProviderStrategy] (pool-4-thread-1) Found Docker environment with local Unix socket (unix:///var/run/docker.sock)
+INFO  [org.tes.DockerClientFactory] (pool-4-thread-1) Docker host IP address is localhost
+INFO  [org.tes.DockerClientFactory] (pool-4-thread-1) Connected to docker: 
+  Server Version: 20.10.14
+  API Version: 1.41
+  Operating System: Ubuntu 20.04.4 LTS
+  Total Memory: 64312 MB
+INFO  [org.tes.uti.RegistryAuthLocator] (pool-4-thread-1) Failure when attempting to lookup auth config. Please ignore if you don't have images in an authenticated registry. Details: (dockerImageName: testcontainers/ryuk:0.3.3, configFile: /home/gitpod/.docker/config.json. Falling back to docker-java default behaviour. Exception message: /home/gitpod/.docker/config.json (No such file or directory)
+INFO  [org.tes.uti.RyukResourceReaper] (pool-4-thread-1) Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+INFO  [org.tes.DockerClientFactory] (pool-4-thread-1) Checking the system...
+INFO  [org.tes.DockerClientFactory] (pool-4-thread-1) ✔︎ Docker server version should be at least 1.6.0
+INFO  [org.tes.DockerClientFactory] (pool-4-thread-1) ✔︎ Docker environment should have more than 2GB free disk space
+INFO  [com.dat.oss.qua.tes.CassandraTestResource] (pool-4-thread-1) Container cassandra:latest starting...
+INFO  [🐳 [cassandra:latest]] (pool-4-thread-1) Creating container for image: cassandra:latest
+INFO  [🐳 [cassandra:latest]] (pool-4-thread-1) Container cassandra:latest is starting: 001d53b387a0a5861466621f6828e753036bec4d9958562ba24a934442c430e5
+INFO  [com.dat.dri.core] (ducttape-0) DataStax Java driver 3.7.1 for Apache Cassandra
+INFO  [com.dat.dri.cor.GuavaCompatibility] (ducttape-0) Detected Guava >= 19 in the classpath, using modern compatibility layer
+INFO  [com.dat.dri.cor.ClockFactory] (ducttape-0) Using native clock to generate timestamps.
+INFO  [com.dat.dri.cor.NettyUtil] (ducttape-0) Did not find Netty's native epoll transport in the classpath, defaulting to NIO.
+INFO  [com.dat.dri.cor.ClockFactory] (ducttape-0) Using native clock to generate timestamps.
+INFO  [com.dat.dri.cor.ClockFactory] (ducttape-0) Using native clock to generate timestamps.
+WARN  [com.dat.dri.cor.Cluster] (ducttape-0) You listed localhost/127.0.0.1:49156 in your contact points, but it wasn't found in the control host's system.peers at startup
+INFO  [com.dat.dri.cor.pol.DCAwareRoundRobinPolicy] (ducttape-0) Using data-center name 'datacenter1' for DCAwareRoundRobinPolicy (if this is incorrect, please provide the correct datacenter name with DCAwareRoundRobinPolicy constructor)
+INFO  [com.dat.dri.cor.Cluster] (ducttape-0) New Cassandra host localhost/0:0:0:0:0:0:0:1:49156 added
+INFO  [🐳 [cassandra:latest]] (pool-4-thread-1) Container cassandra:latest started in PT9.049449S
+INFO  [org.tes.ext.ScriptUtils] (pool-4-thread-1) Executing database script from init_script.cql
+INFO  [com.dat.dri.cor.ClockFactory] (pool-4-thread-1) Using native clock to generate timestamps.
+WARN  [com.dat.dri.cor.Cluster] (pool-4-thread-1) You listed localhost/127.0.0.1:49156 in your contact points, but it wasn't found in the control host's system.peers at startup
+INFO  [com.dat.dri.cor.pol.DCAwareRoundRobinPolicy] (pool-4-thread-1) Using data-center name 'datacenter1' for DCAwareRoundRobinPolicy (if this is incorrect, please provide the correct datacenter name with DCAwareRoundRobinPolicy constructor)
+INFO  [com.dat.dri.cor.Cluster] (pool-4-thread-1) New Cassandra host localhost/0:0:0:0:0:0:0:1:49156 added
+INFO  [org.tes.ext.ScriptUtils] (pool-4-thread-1) Executed database script from init_script.cql in 2132 ms.
+INFO  [com.dat.dri.cor.ClockFactory] (pool-4-thread-1) Using native clock to generate timestamps.
+WARN  [com.dat.dri.cor.Cluster] (pool-4-thread-1) You listed localhost/0:0:0:0:0:0:0:1:49156 in your contact points, but it wasn't found in the control host's system.peers at startup
+INFO  [com.dat.dri.cor.pol.DCAwareRoundRobinPolicy] (pool-4-thread-1) Using data-center name 'datacenter1' for DCAwareRoundRobinPolicy (if this is incorrect, please provide the correct datacenter name with DCAwareRoundRobinPolicy constructor)
+INFO  [com.dat.dri.cor.Cluster] (pool-4-thread-1) New Cassandra host localhost/127.0.0.1:49156 added
+INFO  [com.dat.oss.qua.tes.CassandraTestResource] (pool-4-thread-1) Container cassandra:latest listening on 127.0.0.1:49156 (inferred local DC: datacenter1)
+WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes.service-type" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes.env.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] (main) Enabling Cassandra metrics using Micrometer.
 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (main) Eagerly initializing Quarkus Cassandra client.
-INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (main) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.13.0
+INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (main) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.14.0
 INFO  [com.dat.oss.dri.int.cor.tim.Clock] (vert.x-eventloop-thread-0) Using native clock for microsecond precision
-INFO  [com.dat.oss.dri.int.cor.ses.DefaultSession] (vert.x-eventloop-thread-9) [s0] Negotiated protocol version V4 for the initial contact point, but cluster seems to support V5, keeping the negotiated version
-**** Table created true****
-INFO  [io.quarkus] (main) Quarkus 2.7.5.Final on JVM started in 6.593s. Listening on: http://localhost:8081
+INFO  [com.dat.tod.res.TodoResource] (main) **** Table created true****
+INFO  [io.quarkus] (main) quarkus-astra-intro-demo 0.01 on JVM (powered by Quarkus 2.9.1.Final) started in 16.146s. Listening on: http://localhost:41159
 INFO  [io.quarkus] (main) Profile test activated. 
-INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, kubernetes, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.399 s - in com.datastaxdev.AstraDemoCQLTest
-2022-03-17 17:04:32,165 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] (main) Closing Quarkus Cassandra session.
-2022-03-17 17:04:32,196 INFO  [io.quarkus] (main) Quarkus stopped in 0.043s
+INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.304 s - in com.datastaxdev.todo.rest.TodoResourceTests
+INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] (main) Closing Quarkus Cassandra session.
+INFO  [io.quarkus] (main) quarkus-astra-intro-demo stopped in 0.039s
 [INFO] 
 [INFO] Results:
 [INFO] 
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  15.407 s
-[INFO] Finished at: 2022-03-17T17:04:32Z
+[INFO] Total time:  25.096 s
+[INFO] Finished at: 2022-05-16T18:22:07Z
 [INFO] ------------------------------------------------------------------------
 ```
+
+You can see from the output that the `cassandra:latest` Docker container was started before the tests were executed.
 
 Verfiy that the table got created with the following command
 
 ```bash
-mvn test -Dcom.datastaxdev.AstraDemoCQLTest | grep -i table
+./mvnw test -Dcom.datastaxdev.todo.rest.TodoResourceTests | grep -i table
 ```
 
 **👁️ Expected output**
 
 ```
-**** Table created true****
+INFO  [com.dat.tod.res.TodoResource] (main) **** Table created true****
 ```
+
+> You will likely see that output repeated more than once.
 
 Although a significant strength of the Quarkus platform is it's [continuous testing](https://quarkus.io/guides/continuous-testing) capabilities, we will skip tests going foraward and focus on the other capabilities of the platform (perhaps, another workshop sometime focussed mainly on testing capabilities, assuming there is enough demand).
 
@@ -401,28 +441,28 @@ In the Gitpod terminal window, We will begin the inner loop journey in dev mode 
 **👁️ Expected output**
 
 ```
---
 __  ____  __  _____   ___  __ ____  ______ 
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-WARN  [io.qua.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.kubernetes-config.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+WARN  [io.qua.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.kubernetes.service-type" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
 
+WARN  [io.qua.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.kubernetes.env.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] (Quarkus Main Thread) Enabling Cassandra metrics using Micrometer.
 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (Quarkus Main Thread) Eagerly initializing Quarkus Cassandra client.
-INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (Quarkus Main Thread) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.13.0
+INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (Quarkus Main Thread) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.14.0
 INFO  [com.dat.oss.dri.int.cor.tim.Clock] (vert.x-eventloop-thread-0) Using native clock for microsecond precision
 INFO  [com.dat.oss.dri.int.cor.ses.DefaultSession] (vert.x-eventloop-thread-9) [s0] Negotiated protocol version V4 for the initial contact point, but cluster seems to support V5, keeping the negotiated version
-**** Table created true****
-INFO  [io.quarkus] (Quarkus Main Thread) quarkus-astra-intro-demo 0.01 on JVM (powered by Quarkus 2.7.5.Final) started in 7.064s. Listening on: http://localhost:8080
+INFO  [com.dat.tod.res.TodoResource] (Quarkus Main Thread) **** Table created true****
+INFO  [io.quarkus] (Quarkus Main Thread) quarkus-astra-intro-demo 0.01 on JVM (powered by Quarkus 2.9.1.Final) started in 7.383s. Listening on: http://localhost:8080
 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cassandra-client, cdi, kubernetes, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cassandra-client, cdi, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
 
 --
 Tests paused
 Press [r] to resume testing, [o] Toggle test output, [:] for the terminal, [h] for more options>
 ```
-✅ **Step 7b: Explore dev**
+✅ **Step 7b: Explore Quarkus dev mode**
 
 Typing `h` in the terminal window should bring up the following
 
@@ -468,7 +508,7 @@ Note that you may have to allow popups from `gitpod.io` as shown below.
 
 Try connecting to the application in a browser by pressing the `w` key as indicated above. This should bring up the application as below.
 
-> **NOTE:** This may not actually work in Gitpod because of the way it handles links. If the page doesn't open for you simply go to the browser tab you opened back in step 4a.
+> **NOTE:** This may not actually work in Gitpod because of the way Gitpod handles links. If the page doesn't open for you simply go to the browser tab you opened back in step 4a.
 
 **👁️ Expected output**
 
@@ -517,12 +557,25 @@ as shown below.
 
 ![gitpod](images/tutorials/quarkus-dev-5.png?raw=true)
 
-You can get out of development mode by hitting `q` or hitting <Ctrl>+C.
+You could continue developing your entire application without ever leaving dev mode! It will even handle refactorings and project dependency changes!
+
+Let's out of development mode by hitting `q` or hitting `<Ctrl>+C`.
+
+✅ **Step 7e: Quarkus smart dispatch**
+
+Let's quickly examine the [Quarkus smart dispatching mechanism](https://quarkus.io/blog/resteasy-reactive-smart-dispatch). Let's open the `com.datastaxdev.todo.rest.TodoResource.java` class by executing the following in a terminal:
+
+```
+gp open src/main/java/com/datastaxdev/todo/rest/TodoResource.java
+```
+
+Notice some methods return [Mutiny reactive types](https://quarkus.io/guides/mutiny-primer) (i.e. `Uni` and `Multi`) while others return non-reactive types (i.e. `String`, `Response`, and `void`). Quarkus doesn't care whether you write reactive or blocking code. Quarkus will make sure reactive code runs on the I/O thread while blocking code will be moved off onto worker thread(s). As you can see, you can even mix and match within the same class!
+
+This application was designed to illustrate both approaches. Which methods are implemented in which manner were randomly chosen.
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
 ## 8. Debugging
-
 
 You can always get back to the file explorer view whenever by clicking on the hamburger menu on the top left followed by `View` and `Explorer` as shown below.
 
@@ -530,23 +583,43 @@ You can always get back to the file explorer view whenever by clicking on the ha
 
 Let's go ahead and hit `q` or `Ctrl+C` to exit out of the running application if you have not already.
 
-Now issue the following command to open up the file where we will subsequently set a breakpoint to be hit whenever we create a new todo item.
+Before we set a breakpoint and start debugging, let's explain the application's structure a bit. The `TodoResource` class (which you saw in the previous section) calls a `com.datastaxdev.todo.service.AstraService`. `AstraService` is an interface with 2 implementations:
+1. `com.datastaxdev.todo.service.CqlSessionAstraService.java`
+    - Uses the `com.datastax.oss.quarkus.runtime.api.session.QuarkusCqlSession` directly using CQL queries to implement the operations.
+2. `com.datastaxdev.todo.service.MapperAstraService.java`
+    - Uses the [DataStax Object Mapper](https://docs.datastax.com/en/developer/java-driver/latest/manual/mapper) and [Cassandra Entity Modeling](https://quarkus.io/guides/cassandra#creating-the-data-model-and-data-access-objects) to model entities as Java objects, greatly simplifying the application's data access layer by sparing you the hassle of writing CQL queries by hand. This is conceptually similar to how [Hibernate](https://hibernate.org) works in the [JPA](https://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html) world.
+    - Uses [Mapstruct](https://mapstruct.org) to easily convert between the `com.datastaxdev.todo.dao.TodoItem` dao entities and the `com.datastaxdev.todo.api.Todo` POJO used at the REST layer. See the `com.datastaxdev.todo.mapping.TodoMapper` class for details.
+
+The application has a [build-time property](https://quarkus.io/guides/cdi-reference#enable_build_properties) (not overridable at runtime) called `astra-service.type`. Resolving dependency injection at build time is one of the key benefits of Quarkus, allowing Quarkus applications to be super small and memory-performant. 
+
+By default, if this property is undefined _OR_ has the value `cql-session`, `com.datastaxdev.todo.service.CqlSessionAstraService` will be injected as the implementation for `com.datastaxdev.todo.service.AstraService`.
+
+If, at build time, `astra-service.type=dao`, then `com.datastaxdev.todo.service.MapperAstraService` will be used instead.
+
+The `com.datastaxdev.todo.config.AstraConfig` class contains everything needed for reading the `astra-service.type` flag at build time and injecting the appropriate `com.datastaxdev.todo.service.AstraService` implementation.
+
+There is a full suite of unit tests that cover both implementations! See `src/test/java/com/datastaxdev/todo/service/CqlSessionAstraServiceTests.java` and  `src/test/java/com/datastaxdev/todo/service/MapperAstraServiceTests.java` for details.
+
+> If you'd like to play around with the mapper implementation, open `src/main/resources/application.properties` and un-comment the line `#astra-service.type=dao`.
+
+Since the application, by default, uses the `com.datastaxdev.todo.service.CqlSessionAstraService` implementation, we'll use that implementation for setting the breakpoint.
 
 ✅ **Step 8a: Set breakpoint**
 
-```
-gp open src/main/java/com/datastaxdev/todo/AstraTODO.java 
+Now issue the following command to open up the file where we will subsequently set a breakpoint to be hit whenever we create a new todo item.
 
 ```
+gp open src/main/java/com/datastaxdev/todo/service/CqlSessionAstraService.java
+```
 
-Now navigate to line 61 and set a breakpoint by clicking to the left of the line number 61 and you'll see a stop sign as shown below.
+Now navigate to line 52 and set a breakpoint by clicking to the left of the line number 52 and you'll see a stop sign as shown below.
 
 ![gitpod](images/tutorials/debug1.png?raw=true)
 
 Re-run the application with the following command and we will debug it live.
 
 ```bash
-./mvnw quarkus:dev -DskipTests
+./mvnw quarkus:dev
 ```
 
 ✅ **Step 8b: Start debugging**
@@ -560,6 +633,8 @@ Then, click on the arrow on the top left to start debugging as shown below.
 Notice debug related information populate in the left side of the window as shown below.
 
 ![gitpod](images/tutorials/debug3.png?raw=true)
+
+> If for some reason the debugger doesn't attach, there may be some weirdness going on with the Gitpod IDE. Refreshing the browser tab containing the workspace or restarting the workspace will usually fix it.
 
 We will demonstrate debugging by fixing a todo item that was entered although there are more powerful features that you can try. 
 
@@ -611,21 +686,21 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 24 resources
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ quarkus-astra-intro-demo ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to /workspace/quarkus-astra-intro-demo/target/classes
+[INFO] Compiling 10 source files to /workspace/quarkus-astra-intro-demo/target/classes
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ quarkus-astra-intro-demo ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /workspace/quarkus-astra-intro-demo/src/test/resources
+[INFO] Copying 1 resource
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ quarkus-astra-intro-demo ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 2 source files to /workspace/quarkus-astra-intro-demo/target/test-classes
+[INFO] Compiling 6 source files to /workspace/quarkus-astra-intro-demo/target/test-classes
 [INFO] 
 [INFO] --- maven-surefire-plugin:3.0.0-M5:test (default-test) @ quarkus-astra-intro-demo ---
 [INFO] Tests are skipped.
@@ -633,19 +708,17 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ quarkus-astra-intro-demo ---
 [INFO] Building jar: /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01.jar
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:build (default) @ quarkus-astra-intro-demo ---
-[WARNING] Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
-[WARNING] Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
-[INFO] Checking for existing resources in: /workspace/quarkus-astra-intro-demo/src/main/kubernetes.
-[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 2866ms
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:build (default) @ quarkus-astra-intro-demo ---
+[WARNING] [io.quarkus.config] Unrecognized configuration key "quarkus.kubernetes.env.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+[WARNING] [io.quarkus.config] Unrecognized configuration key "quarkus.kubernetes.service-type" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 2076ms
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  8.830 s
-[INFO] Finished at: 2022-03-17T16:40:55Z
+[INFO] Total time:  9.681 s
+[INFO] Finished at: 2022-05-16T20:21:41Z
 [INFO] ------------------------------------------------------------------------
 ```
-
 
 ✅ **Step 9b: Run**
 
@@ -663,17 +736,18 @@ __  ____  __  _____   ___  __ ____  ______
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes-config.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes.service-type" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+WARN  [io.qua.config] (main) Unrecognized configuration key "quarkus.kubernetes.env.secrets" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] (main) Enabling Cassandra metrics using Micrometer.
 INFO  [io.qua.sma.ope.run.OpenApiRecorder] (main) Default CORS properties will be used, please use 'quarkus.http.cors' properties instead
-INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (main) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.13.0
+INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (main) Eagerly initializing Quarkus Cassandra client.
+INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] (main) DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.14.0
 INFO  [com.dat.oss.dri.int.cor.tim.Clock] (vert.x-eventloop-thread-0) Using native clock for microsecond precision
 INFO  [com.dat.oss.dri.int.cor.ses.DefaultSession] (vert.x-eventloop-thread-9) [s0] Negotiated protocol version V4 for the initial contact point, but cluster seems to support V5, keeping the negotiated version
-**** Table created true****
-INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (main) Eagerly initializing Quarkus Cassandra client.
-INFO  [io.quarkus] (main) quarkus-astra-intro-demo 0.01 on JVM (powered by Quarkus 2.7.5.Final) started in 5.362s. Listening on: http://0.0.0.0:8080
+INFO  [com.dat.tod.res.TodoResource] (main) **** Table created true****
+INFO  [io.quarkus] (main) quarkus-astra-intro-demo 0.01 on JVM (powered by Quarkus 2.9.1.Final) started in 3.882s. Listening on: http://0.0.0.0:8080
 INFO  [io.quarkus] (main) Profile prod activated. 
-INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, kubernetes, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
 ```
 
 You can play with the application from the new browser window you created in step 4.
@@ -939,6 +1013,12 @@ service "quarkus-cassandra" deleted
 deployment.apps "quarkus-cassandra" deleted
 ```
 
+Additionally, you should delete the `Secret` you created.
+
+```
+kubectl delete secret astra
+```
+
 If the public docker image contains the credentials to be able to access the database, it's a good idea to delete the docker image [from docker hub](http://hub.docker.com) right away, anyway.
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
@@ -969,54 +1049,21 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
 [INFO] Copying 24 resources
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ quarkus-astra-intro-demo ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to /workspace/quarkus-astra-intro-demo/target/classes
+[INFO] Compiling 10 source files to /workspace/quarkus-astra-intro-demo/target/classes
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
-[INFO] 
-[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ quarkus-astra-intro-demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /workspace/quarkus-astra-intro-demo/src/test/resources
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ quarkus-astra-intro-demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 2 source files to /workspace/quarkus-astra-intro-demo/target/test-classes
-[INFO] 
-[INFO] --- maven-surefire-plugin:3.0.0-M5:test (default-test) @ quarkus-astra-intro-demo ---
-[INFO] Tests are skipped.
-gitpod /workspace/quarkus-astra-intro-demo (main) $ ./mvnw clean package -Pnative -DskipTests
-Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] ---------< quarkus-astra-intro-demo:quarkus-astra-intro-demo >----------
-[INFO] Building quarkus-astra-intro-demo 0.01
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ quarkus-astra-intro-demo ---
-[INFO] Deleting /workspace/quarkus-astra-intro-demo/target
-[INFO] 
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ quarkus-astra-intro-demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] Copying 24 resources
-[INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code (default) @ quarkus-astra-intro-demo ---
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ quarkus-astra-intro-demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to /workspace/quarkus-astra-intro-demo/target/classes
-[INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:generate-code-tests (default) @ quarkus-astra-intro-demo ---
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ quarkus-astra-intro-demo ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /workspace/quarkus-astra-intro-demo/src/test/resources
+[INFO] Copying 1 resource
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ quarkus-astra-intro-demo ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 2 source files to /workspace/quarkus-astra-intro-demo/target/test-classes
+[INFO] Compiling 6 source files to /workspace/quarkus-astra-intro-demo/target/test-classes
 [INFO] 
 [INFO] --- maven-surefire-plugin:3.0.0-M5:test (default-test) @ quarkus-astra-intro-demo ---
 [INFO] Tests are skipped.
@@ -1024,7 +1071,7 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ quarkus-astra-intro-demo ---
 [INFO] Building jar: /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01.jar
 [INFO] 
-[INFO] --- quarkus-maven-plugin:2.7.5.Final:build (default) @ quarkus-astra-intro-demo ---
+[INFO] --- quarkus-maven-plugin:2.9.1.Final:build (default) @ quarkus-astra-intro-demo ---
 [INFO] [io.quarkus.deployment.pkg.steps.JarResultBuildStep] Building native image source jar: /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01-native-image-source-jar/quarkus-astra-intro-demo-0.01-runner.jar
 [INFO] Checking for existing resources in: /workspace/quarkus-astra-intro-demo/src/main/kubernetes.
 [INFO] [io.quarkus.deployment.pkg.steps.NativeImageBuildStep] Building native image from /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01-native-image-source-jar/quarkus-astra-intro-demo-0.01-runner.jar
@@ -1034,58 +1081,58 @@ Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 ========================================================================================================================
 GraalVM Native Image: Generating 'quarkus-astra-intro-demo-0.01-runner'...
 ========================================================================================================================
-[1/7] Initializing...                                                                                    (8.2s @ 0.58GB)
+[1/7] Initializing...                                                                                    (4.9s @ 0.42GB)
  Version info: 'GraalVM 22.0.0.2 Java 11 CE'
- 2 user-provided feature(s)
+ 3 user-provided feature(s)
   - io.quarkus.runner.AutoFeature
+  - io.quarkus.runtime.graal.DisableLoggingAutoFeature
   - io.quarkus.runtime.graal.ResourcesFeature
-[2/7] Performing analysis...  [17:25:47,136 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] Enabling Cassandra metrics using Micrometer.
-17:25:53,563 INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.13.0
-*17:26:08,678 INFO  [org.jbo.threads] JBoss Threads version 3.4.2.Final
-**********]                                                             (59.6s @ 2.24GB)
-  15,884 (93.61%) of 16,969 classes reachable
-  25,396 (70.36%) of 36,094 fields reachable
-  89,499 (83.76%) of 106,855 methods reachable
-     788 classes,    60 fields, and 6,136 methods registered for reflection
+[2/7] Performing analysis...  [20:33:32,360 INFO  [com.dat.oss.qua.run.int.qua.CassandraClientRecorder] Enabling Cassandra metrics using Micrometer.
+20:33:36,471 INFO  [com.dat.oss.dri.int.cor.DefaultMavenCoordinates] DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.14.0
+**********]                                                              (31.7s @ 2.17GB)
+  14,155 (95.32%) of 14,850 classes reachable
+  20,586 (66.60%) of 30,912 fields reachable
+  69,696 (82.00%) of 84,993 methods reachable
+     482 classes,    39 fields, and   850 methods registered for reflection
       68 classes,    88 fields, and    54 methods registered for JNI access
-[3/7] Building universe...                                                                               (3.5s @ 2.86GB)
-[4/7] Parsing methods...      [***]                                                                      (9.1s @ 2.58GB)
-[5/7] Inlining methods...     [*****]                                                                   (10.2s @ 2.88GB)
-[6/7] Compiling methods...    [******]                                                                  (42.0s @ 3.62GB)
-[7/7] Creating image...                                                                                  (8.2s @ 3.52GB)
-  31.64MB (33.09%) for code area:   58,533 compilation units
-  55.45MB (58.00%) for image heap:  10,947 classes and 674,265 objects
-   8.51MB ( 8.91%) for other data
-  95.60MB in total
+[3/7] Building universe...                                                                               (2.0s @ 2.69GB)
+[4/7] Parsing methods...      [***]                                                                      (5.3s @ 1.81GB)
+[5/7] Inlining methods...     [*****]                                                                    (4.7s @ 3.18GB)
+[6/7] Compiling methods...    [*****]                                                                   (22.6s @ 3.42GB)
+[7/7] Creating image...                                                                                  (4.3s @ 2.54GB)
+  25.64MB (36.89%) for code area:   46,599 compilation units
+  37.07MB (53.33%) for image heap:   9,899 classes and 350,222 objects
+   6.80MB ( 9.78%) for other data
+  69.50MB in total
 ------------------------------------------------------------------------------------------------------------------------
 Top 10 packages in code area:                               Top 10 object types in image heap:
-   1.97MB io.fabric8.kubernetes.api.model                     21.66MB byte[] for general heap data
-   1.76MB com.oracle.svm.core.reflect                          4.37MB java.lang.Class
-   1.67MB sun.security.ssl                                     3.79MB java.util.LinkedHashMap
-   1.05MB java.util                                            3.73MB java.lang.String
- 936.79KB com.esri.core.geometry                               3.17MB byte[] for java.lang.String
- 781.02KB io.quarkus.runtime.generated                         1.94MB java.lang.reflect.Method
- 687.89KB com.sun.crypto.provider                              1.42MB java.util.HashMap$Node[]
- 490.01KB sun.security.x509                                  960.41KB s.r.a.AnnotatedTypeFactory$AnnotatedTypeBaseImpl
- 472.01KB java.util.concurrent                               908.58KB java.util.HashMap$Node
- 426.70KB io.netty.buffer                                    659.23KB java.lang.String[]
-      ... 695 additional packages                                 ... 3599 additional object types
+   1.67MB sun.security.ssl                                    19.83MB byte[] for general heap data
+   1.03MB java.util                                            3.40MB java.lang.Class
+ 686.94KB com.sun.crypto.provider                              2.65MB java.lang.String
+ 531.52KB io.quarkus.runtime.generated                         2.21MB byte[] for java.lang.String
+ 490.01KB sun.security.x509                                  627.75KB java.util.HashMap$Node
+ 458.87KB java.util.concurrent                               581.63KB java.util.LinkedHashMap
+ 446.33KB io.netty.buffer                                    534.65KB com.oracle.svm.core.util.LazyFinalReference
+ 426.93KB com.oracle.svm.core.reflect                        526.91KB java.lang.String[]
+ 425.74KB com.typesafe.config.impl                           439.28KB byte[] for method metadata
+ 379.99KB java.lang                                          427.69KB c.o.s.c.h.DynamicHub$$Lambda$~31d9af6a7fe68cfc2a1f
+      ... 661 additional packages                                 ... 3407 additional object types
                                            (use GraalVM Dashboard to see all)
 ------------------------------------------------------------------------------------------------------------------------
-                        13.2s (8.9% of total time) in 48 GCs | Peak RSS: 5.55GB | CPU load: 4.98
+                        6.2s (7.7% of total time) in 40 GCs | Peak RSS: 5.21GB | CPU load: 4.98
 ------------------------------------------------------------------------------------------------------------------------
 Produced artifacts:
  /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01-native-image-source-jar/quarkus-astra-intro-demo-0.01-runner (executable)
  /workspace/quarkus-astra-intro-demo/target/quarkus-astra-intro-demo-0.01-native-image-source-jar/quarkus-astra-intro-demo-0.01-runner.build_artifacts.txt
 ========================================================================================================================
-Finished generating 'quarkus-astra-intro-demo-0.01-runner' in 2m 27s.
+Finished generating 'quarkus-astra-intro-demo-0.01-runner' in 1m 20s.
 [INFO] [io.quarkus.deployment.pkg.steps.NativeImageBuildRunner] objcopy --strip-debug quarkus-astra-intro-demo-0.01-runner
-[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 152522ms
+[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 83782ms
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  02:38 min
-[INFO] Finished at: 2022-03-17T17:28:05Z
+[INFO] Total time:  01:29 min
+[INFO] Finished at: 2022-05-16T20:34:47Z
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -1103,14 +1150,14 @@ __  ____  __  _____   ___  __ ____  ______
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
 INFO  [io.qua.sma.ope.run.OpenApiRecorder] (main) Default CORS properties will be used, please use 'quarkus.http.cors' properties instead
+INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (main) Eagerly initializing Quarkus Cassandra client.
 INFO  [com.dat.oss.dri.int.cor.os.Native] (vert.x-eventloop-thread-0) Using Graal-specific native functions
 INFO  [com.dat.oss.dri.int.cor.tim.Clock] (vert.x-eventloop-thread-0) Using native clock for microsecond precision
 INFO  [com.dat.oss.dri.int.cor.ses.DefaultSession] (vert.x-eventloop-thread-9) [s0] Negotiated protocol version V4 for the initial contact point, but cluster seems to support V5, keeping the negotiated version
-**** Table created true****
-INFO  [com.dat.oss.qua.run.int.qua.CassandraClientStarter] (main) Eagerly initializing Quarkus Cassandra client.
-INFO  [io.quarkus] (main) quarkus-astra-intro-demo 0.01 native (powered by Quarkus 2.7.5.Final) started in 3.276s. Listening on: http://0.0.0.0:8080
+INFO  [com.dat.tod.res.TodoResource] (main) **** Table created true****
+INFO  [io.quarkus] (main) quarkus-astra-intro-demo 0.01 native (powered by Quarkus 2.9.1.Final) started in 2.273s. Listening on: http://0.0.0.0:8080
 INFO  [io.quarkus] (main) Profile prod activated. 
-INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, kubernetes, kubernetes-client, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+INFO  [io.quarkus] (main) Installed features: [cassandra-client, cdi, kubernetes, micrometer, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
 ```
 
 Notice the fast startup time since the image is running as a native image.
