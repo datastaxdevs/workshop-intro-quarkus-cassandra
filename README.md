@@ -887,10 +887,11 @@ Next, let's generate the containerized image with the secrets as below.
 ./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
-Next, let's generate the containerized image with the secrets as below.
+Next, let's generate and push the containerized image with the secrets removed as below.
 
 ```
-./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
+sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
+./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
 ✅ **Step 10f: Stand up application in Kubernetes(optional)**
