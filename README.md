@@ -919,7 +919,7 @@ You can create a Kubernetes cluster on the cloud by signing up for [Managed dev 
 
 ![lens](images/tutorials/Lens01.png?raw=true)
 
-Eventually you'll have a dev cluster on the cloud as shown below which is where we will deploy our workload(s).
+Eventually you'll have a dev cluster on the cloud as shown below which is where we will deploy our workload(s). **Note**: You may need to provide a credit card for billing purposes to enable this feature.
 
 ![lens](images/tutorials/Lens02.png?raw=true)
 
