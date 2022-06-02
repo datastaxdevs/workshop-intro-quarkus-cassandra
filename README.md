@@ -155,7 +155,8 @@ We are now set with the database and credentials. Let's start coding with Quarku
 
 ## 3. Launch Gitpod
 
-[Gitpod](https://www.gitpod.io/) is an IDE 100% online based on [VS Code](https://github.com/gitpod-io/vscode/blob/gp-code/LICENSE.txt?lang=en-US). To initialize your environment simply click on the button below _(CTRL + Click to open in new tab)_ You will be asked for you github account, as needed.
+[Gitpod](https://www.gitpod.io/) is an IDE 100% online based on [VS Code](https://github.com/gitpod-io/vscode/blob/gp-code/LICENSE.txt?lang=en-US). To initialize your environment simply click on the button below
+_(CTRL + Click to open in new tab)_ You will be asked for you github account, as needed.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 
@@ -844,58 +845,11 @@ Let's not only build the containerized image but also push it to DockerHub (**be
 ./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
-> **NOTE:** If the repo in your Docker Hub account didn't previously exist it will be created for you as a _private_ repo. You will need to go into your Docker Hub account and make the repo public.
+**NOTE:** If the repo in your Docker Hub account didn't previously exist it will be created for you as a _private_ repo. You will need to go into your Docker Hub account and make the repo public.
 
 In today's world of microservices and service meshes, it's all about deploying to Kubernetes. Quarkus gives us an easy way to do that!
 
-✅ **Step 10f: Stand up application in Kubernetes(optional)**
-
-It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster`.
-
-However, we've included some steps here using [okteto](https://www.okteto.com) (you can modify the steps below depending on your choice of provider).
-
-**Step A**: Create a Kubernetes cluster. You can get one for free at [https://okteto.com](https://okteto.com) with your Github credentials.
-
-**Step B**: Download the `config` file from [https://cloud.okteto.com/#/settings/setup](https://cloud.okteto.com/#/settings/setup) locally as shown below.
-
-![okteto](images/tutorials/oktetoconfig1.png?raw=true)
-
-**Step C**: Now "drag and drop" it over to the gitpod window (similar to how we transferred the secure connect bundle) as shown below.
-
-![okteto](images/tutorials/oktetoconfig2.png?raw=true)
-
-**Step D**: Use the transferred okteto config file with the following command in the Gitpod terminal window and verify
-
-```bash
-export KUBECONFIG=okteto-kube.config
-kubectl config get-contexts
-kubectl get all
-```
-
-If you get a message like `error: You must be logged in to the server (Unauthorized)` reauthorize and download the `okteto-kube.config` file again.
-
-Since okteto only provides access to your namespace, you should see something like below and you won't be able to run other commands like you would normally with a cluster that you created.
-
-```
-No resources found in ragsns namespace.
-```
-
-**Step E**: The `application.properties` file is setup to use the Kubernetes secrets already (`quarkus.kubernetes.env.secrets=astra`). Setup the Kubernetes secrets as below from the`Client Id` and `Client Secret` respectively as we did earlier.
-
-```
-kubectl create secret generic astra --from-literal=astra-username=<Client Id> --from-literal=astra-password=<Client Secret>
-```
-
-Verify the screts are setup properly with the following commands.
-
-```bash
-kubectl get secret astra -o jsonpath="{.data.astra-username}" | base64 --decode
-kubectl get secret astra -o jsonpath="{.data.astra-password}" | base64 --decode
-```
-
-The `kubernetes.yml` deployment file that will be generated in the next step will be setup to use the secrets.
-
-**Step F**: Quarkus includes the [Kubernetes extension](https://quarkus.io/guides/deploying-to-kubernetes), allowing developers to deploy directly to Kubernetes and use Kubernetes `ConfigMap`s and `Secret`s as configuration sources. To use this update `pom.xml` with the following command in the Gitpod ternimal window as below.
+**Step A**: Quarkus includes the [Kubernetes extension](https://quarkus.io/guides/deploying-to-kubernetes), allowing developers to deploy directly to Kubernetes and use Kubernetes `ConfigMap`s and `Secret`s as configuration sources. To use this update `pom.xml` with the following command in the Gitpod ternimal window as below.
 
 ```bash
 ./mvnw quarkus:add-extension -Dextensions="kubernetes"
@@ -920,7 +874,7 @@ index 371e35e..4b842d8 100644
 +    </dependency>
 ```
 
-**Step G**:
+**Step B**:
 Ensure that `DOCKER_LOGINID` was set in the earlier step as below and the command should output the Docker login ID.
 
 ```
@@ -932,6 +886,144 @@ Next, let's generate the containerized image with the secrets as below.
 ```
 ./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
+
+Next, let's generate the containerized image with the secrets as below.
+
+```
+./mvnw clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=false -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
+```
+
+✅ **Step 10f: Stand up application in Kubernetes(optional)**
+
+It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster`.
+
+Hereafter, there are two paths -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
+
+|Steps prefixed with|Details| First step|
+| ----------- | ----------- |-----|
+|Lens| Install on Lens IDE|Lens.A
+|Okteto| Sample Kubernetes provider|Okteto.A
+
+If you're familiar with using `kubectl` command you can pick either. If you're not you're recommended to use Steps prefixed with `Lens`.
+
+**Step Lens.A**: Download Lens
+
+[Lens](https://k8slens.dev/) is a popular Integrated Development Environment (IDE) for Kubernetes and enables developers and engineers to develop and deploy apps on multiple clusters and adminster them easier than using command line tools like `kubectl`.
+
+[Download](https://docs.k8slens.dev/main/#downloading-lens) Lens on your local system.
+
+**Step Lens.B**: Sign up for dev clusters
+
+You can create a Kubernetes cluster on the cloud by signing up for [Managed dev clusters](https://k8slens.dev/kubernetes.html) on Lens. Sample screen shots are shown below
+
+![lens](images/tutorials/Lens01.png?raw=true)
+
+Eventually you'll have a dev cluster on the cloud as shown below which is where we will deploy our workload(s).
+
+![lens](images/tutorials/Lens02.png?raw=true)
+
+**Step Lens.C**: Set up secrets
+
+Start by clicking on `Config`, `Secrets` and `+` as shown below.
+
+![lens](images/tutorials/Lenssecret01.png?raw=true)
+
+Now add the secrets `astra-username` and `astra-password` as shown below.
+
+![lens](images/tutorials/Lenssecret02.png?raw=true)
+
+You can verify you entered the values correctly by hitting the button as shown below which will show the values in clear.
+
+![lens](images/tutorials/Lenssecret03.png?raw=true)
+
+**Step Lens.D**: Start the workload
+
+We use the generated `kubernetes.yml` file to install the workload in Lens.
+
+Click on `+` and `Create resource` as shown below.
+
+![lens](images/tutorials/Lensresource01.png?raw=true)
+
+We are going to cut-n-paste the contents from the Gitpod window into Lens.
+
+Issue the following command in the Gitpod terminal window to look at the Kubernetes manifests that were automatically generated and applied to the cluster.
+
+```
+gp open target/kubernetes/kubernetes.yml
+```
+
+and cut-n-paste the contents into Lens as shown below and hit `Create` as shown below.
+
+![lens](images/tutorials/Lensresource02.png?raw=true)
+
+If you dig into `Pods` you should be see it running as shown below.
+
+![lens](images/tutorials/Lensresource03.png?raw=true)
+
+You can look through other Kubernetes artifacts which you can easily navigate via Lens.
+
+**Step Lens.E**: Cleanup as below.
+
+You can delete the service, deployment and secret using Lens.
+
+You're now done with Lens deployment and can skip other deployment(s).
+
+**OR**
+
+**Step Okteto.A**: Create a cluster
+
+We've included some steps here using [okteto](https://www.okteto.com) (you can modify the steps below depending on your choice of provider).
+
+Create a Kubernetes cluster. You can get one for free at [https://okteto.com](https://okteto.com) with your Github credentials.
+
+**Step Okteto.B**: Download config file
+
+Download the `config` file from [https://cloud.okteto.com/#/settings/setup](https://cloud.okteto.com/#/settings/setup) locally as shown below.
+
+![okteto](images/tutorials/oktetoconfig1.png?raw=true)
+
+**Step Okteto.C**: Drag and drop config into Gitpod
+
+Now "drag and drop" it over to the gitpod window (similar to how we transferred the secure connect bundle) as shown below.
+
+![okteto](images/tutorials/oktetoconfig2.png?raw=true)
+
+**Step Okteto.D**: Setup config in Gitpod window
+
+Use the transferred okteto config file with the following command in the Gitpod terminal window and verify
+
+```bash
+export KUBECONFIG=okteto-kube.config
+kubectl config get-contexts
+kubectl get all
+```
+
+If you get a message like `error: You must be logged in to the server (Unauthorized)` reauthorize and download the `okteto-kube.config` file again.
+
+Since okteto only provides access to your namespace, you should see something like below and you won't be able to run other commands like you would normally with a cluster that you created.
+
+```
+No resources found in ragsns namespace.
+```
+
+**Step Okteto.E**: Setup secrets
+
+The `application.properties` file is setup to use the Kubernetes secrets already (`quarkus.kubernetes.env.secrets=astra`). Setup the Kubernetes secrets as below from the`Client Id` and `Client Secret` respectively as we did earlier.
+
+```
+kubectl create secret generic astra --from-literal=astra-username=<Client Id> --from-literal=astra-password=<Client Secret>
+```
+
+Verify the screts are setup properly with the following commands.
+
+```bash
+kubectl get secret astra -o jsonpath="{.data.astra-username}" | base64 --decode
+kubectl get secret astra -o jsonpath="{.data.astra-password}" | base64 --decode
+```
+
+The `kubernetes.yml` deployment file that will be generated in the next step will be setup to use the secrets.
+
+**Step Okteto.F**: Push image
 
 You may want to remove the actual values of `astra-username` and `astra-password` from the`application.properties` file as below before pushing the container image to a public registry.
 
@@ -991,7 +1083,7 @@ Alternately, you can access the application provided by the gitpod URL like we h
 kubectl port-forward svc/quarkus-cassandra 8080:80 &
 ```
 
-**Step I**: Cleanup as below.
+**Step Okteto.G**: Cleanup
 
 You can stop the port forwarding by deleting the background job as below.
 
