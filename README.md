@@ -46,6 +46,14 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Questions and Answers](https://community.datastax.com/)
 - [Workshop code](https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 
+## Alternate Learning Path(s) in this workshop
+
+If you're primarily interested in containerization (as in **OpenInfra workshop 2022**, you can skip most of the steps and jump straight to [Containerizing](#10-containerizing). Summarizing
+
+|Focus| Step(s)|
+| ----------- | ----------- |
+|Containers| Skip exercises 7,8,9|
+
 ## 0. Table of contents
 
 1. [Create Astra DB Instance](#1-create-astra-db-instance)
@@ -894,9 +902,8 @@ sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
 ./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -Dquarkus.container-image.group=$DOCKER_LOGINID -DskipTests
 ```
 
-✅ **Step 10f: Stand up application in Kubernetes(optional)**
+✅ **Step 10f: Stand up application in Kubernetes**
 
-It's left as an optional exercise to the attendee to deploy this to a Kubernetes cluster`.
 
 Hereafter, there are two paths -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
 
