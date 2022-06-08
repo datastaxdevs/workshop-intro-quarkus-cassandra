@@ -904,8 +904,7 @@ sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
 
 ✅ **Step 10f: Stand up application in Kubernetes**
 
-
-Hereafter, there are two paths -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
+Now, you can deploy your application to Kubernetes. Hereafter, **there are two paths** -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
 
 |Steps prefixed with|Details| First step|
 | ----------- | ----------- |-----|
@@ -916,11 +915,11 @@ If you're familiar with using `kubectl` command you can pick either. If you're n
 
 **Step Lens.A**: Download Lens
 
-[Lens](https://k8slens.dev/) is a popular Integrated Development Environment (IDE) for Kubernetes and enables developers and engineers to develop and deploy apps on multiple clusters and adminster them easier than using command line tools like `kubectl`.
+[Lens](https://k8slens.dev/) Lens provides the full situational awareness for everything that runes in Kubernetes. Lens provides its users with a simple graphical user interface that provides the necessary tools and resources to easily manage and monitor multiple Kubernetes cluster, applications all the resources within. 
 
 [Download](https://docs.k8slens.dev/main/#downloading-lens) Lens on your local system.
 
-**Step Lens.B**: Sign up for dev clusters
+**Step Lens.B**: This step is optional: You can either leverage a fully managed development cluster via Lens, or use your own Kubernetes distro. Sign up for dev clusters
 
 You can create a Kubernetes cluster on the cloud by signing up for [Managed dev clusters](https://k8slens.dev/kubernetes.html) on Lens. Sample screen shots are shown below
 
@@ -974,7 +973,7 @@ You can look through other Kubernetes artifacts which you can easily navigate vi
 
 You can delete the service, deployment and secret using Lens.
 
-You're now done with Lens deployment and can skip other deployment(s).
+You're now done with Lens deployment and can skip other deployment(s). 
 
 **OR**
 
