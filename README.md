@@ -46,6 +46,14 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 - [Questions and Answers](https://community.datastax.com/)
 - [Workshop code](https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 
+## Alternate Learning Path(s) in this workshop
+
+If you're primarily interested in containerization (as in **OpenInfra workshop 2022**, you can skip most of the steps and jump straight to [Containerizing](#10-containerizing). Summarizing
+
+|Focus| Step(s)|
+| ----------- | ----------- |
+|Containers| Skip exercises 7,8,9|
+
 ## 0. Table of contents
 
 1. [Create Astra DB Instance](#1-create-astra-db-instance)
@@ -896,9 +904,7 @@ sed -i '/# TBD Below/,+4 d' ./target/classes/application.properties
 
 ✅ **Step 10f: Stand up application in Kubernetes**
 
-Now, you can deploy your application to Kubernetes. 
-
-Hereafter, there are two paths -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
+Now, you can deploy your application to Kubernetes. Hereafter, **there are two paths** -- steps prefixed with `Lens` OR steps prefixed with `Okteto` as summarized below.
 
 |Steps prefixed with|Details| First step|
 | ----------- | ----------- |-----|
