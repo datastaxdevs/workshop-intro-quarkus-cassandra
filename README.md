@@ -35,7 +35,7 @@ Although, the Quarkus platform leverages a reactive architecture, the developer 
 
 We strive to make our hands-on workshops prerequisites free -- who has the time to install prerequistes? :-)
 
-However, docker login credentials, some familiarity with [Visual Studio Code](https://code.visualstudio.com) and [Giptod](https://gitpod.io) (although not strictly necessary) might help.
+However, docker login credentials, some familiarity with an IDE like [Visual Studio Code](https://code.visualstudio.com) or [Gitpod](https://gitpod.io) (although not strictly necessary) might help.
 
 ## Materials for the Session
 
