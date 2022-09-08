@@ -1,4 +1,4 @@
-# ![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/ico.jpg?raw=true) Workshop Intro to Quarkus and Cassandra
+# ![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/ico.jpg?raw=true) Workshop - Containerization and Intro to Quarkus and Cassandra with Kubernetes, Lens
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/DataStax-Academy/workshop-spring-data-cassandra)
 [![License Apache2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
@@ -8,9 +8,11 @@ Today we showcase an application using **Apache Cassandra™** as a backend impl
 
 There are many other features of the Quarkus platform that we will not be looking into that are widely considered as unique strengths of the platform including testing.
 
+We will deploy the app on containers in Kubernetes using Lens.
+
 The application we will be using is based on [Jake's port](https://github.com/tjake/todo-astra-react-serverless/) of the [TodoMVC code](https://github.com/tastejs/todomvc/tree/master/examples/react) originally written by [Pete Hunt](https://github.com/petehunt). The example is modified from [https://github.com/huksley/todo-react-ssr-serverless](https://github.com/huksley/todo-react-ssr-serverless).
 
-![SplashScreen](images/tutorials/splash-quarkus-cassandra.png?raw=true)
+![SplashScreen](images/tutorials/NewSplash.png?raw=true)
 
 a screenshot of this simple app is below.
 
@@ -48,11 +50,11 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 ## Alternate Learning Path(s) in this workshop
 
-If you're primarily interested in containerization (as in **OpenInfra workshop 2022**, you can skip most of the steps and jump straight to [Containerizing](#10-containerizing). Summarizing
+If you're primarily interested in containerization (as in **Slay the complexity of Kubernetes Inner Loop Development**, you can skip most of the early steps and jump straight to [Containerizing](#10-containerizing). Summarizing
 
 |Focus| Step(s)|
 | ----------- | ----------- |
-|Containers| Skip exercises 7,8,9|
+|Containers/Inner loop| Skip exercises 7,8,9|
 
 ## 0. Table of contents
 
@@ -1134,6 +1136,7 @@ Finally, Quarkus can build a native executable image with the help of the GraalV
 ```
 
 **Expected output:**
+
 ```
 Picked up JAVA_TOOL_OPTIONS:  -Xmx3435m
 [INFO] Scanning for projects...
@@ -1276,7 +1279,7 @@ Option A. Complete the practice steps from this repository as described above (i
 
 Option B: Learn more about Quarkus and do some development with https://github.com/datastax/cassandra-quarkus. Send a screenshot of the working "Fruits application" with the following entry "Jackfruit" and the correpsonding description as "King/Queen of fruits".
 
-3. Submit your homework [here](https://docs.google.com/forms/d/e/1FAIpQLSd3hMHgHURsNGq2-jDAIr-XPLJGHqaRAm9CAMkYveybuYfBRw/viewform)
+Submit your homework [here](https://docs.google.com/forms/d/e/1FAIpQLSd3hMHgHURsNGq2-jDAIr-XPLJGHqaRAm9CAMkYveybuYfBRw/viewform)
 
 That's it, you are done! Expect an email next week!
 
