@@ -52,9 +52,9 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 If you're primarily interested in containerization (as in **Slay the complexity of Kubernetes Inner Loop Development**), you can skip most of the early steps and jump straight to [Containerizing](#10-containerizing). Summarizing
 
-|Focus| Steps (s) | Step(s) skipped |
+|Focus| Step(s) | Step(s) skipped |
 | ----------- | --- |----------- |
-|**Containers/Inner loop**| Do steps 1-6 | Skip steps 7,8,9|
+|**Containers/Inner loop**| Do steps 1-6 and 10 onwards | Skip steps 7,8,9|
 
 ## 0. Table of contents
 
