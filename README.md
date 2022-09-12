@@ -50,11 +50,11 @@ It doesn't matter if you join our workshop live or you prefer to do at your own 
 
 ## Alternate Learning Path(s) in this workshop
 
-If you're primarily interested in containerization (as in **Slay the complexity of Kubernetes Inner Loop Development**, you can skip most of the early steps and jump straight to [Containerizing](#10-containerizing). Summarizing
+If you're primarily interested in containerization (as in **Slay the complexity of Kubernetes Inner Loop Development**), you can skip most of the early steps and jump straight to [Containerizing](#10-containerizing). Summarizing
 
-|Focus| Step(s)|
-| ----------- | ----------- |
-|Containers/Inner loop| Skip exercises 7,8,9|
+|Focus| Steps (s) | Step(s) skipped |
+| ----------- | --- |----------- |
+|**Containers/Inner loop**| Do steps 1-6 | Skip steps 7,8,9|
 
 ## 0. Table of contents
 
