@@ -922,15 +922,42 @@ If you're familiar with using `kubectl` command you can pick either. If you're n
 
 [Download](https://docs.k8slens.dev/main/#downloading-lens) Lens on your local system.
 
-**Step Lens.B**: Sign up for dev clusters
+**Step Lens.B**: Download, install and run Lens Desktop
 
-You can create a Kubernetes cluster on the cloud by signing up for [Managed dev clusters](https://k8slens.dev/kubernetes.html) on Lens. Sample screen shots are shown below
+Sign up for a free trial and download Lens desktop and install it as shown below. Make sure you select the tiny icon on the bottom left and click on the free trial as shown below.
 
-![lens](images/tutorials/Lens01.png?raw=true)
+![lens](images/tutorials/LensDownload1.png?raw=true)
 
-Eventually you'll have a dev cluster on the cloud as shown below which is where we will deploy our workload(s). **Note**: You may need to provide a credit card for billing purposes to enable this feature.
 
-![lens](images/tutorials/Lens02.png?raw=true)
+If needed, launch the desktop manually as shown below.
+
+![lens](images/tutorials/LensLaunchManual1.png?raw=true)
+
+After the launch the Lens Desktop might be in a stopped state as shown in the bottom left below.
+
+![lens](images/tutorials/LensStop1.png?raw=true)
+
+Click on the `Lens Desktop Kube: Stopped` and pick appropriate values as shown below.
+
+![lens](images/tutorials/LensValues1.png?raw=true)
+
+Note that the current state is shown as stopped as shown below.
+
+![lens](images/tutorials/LensStopped1.png?raw=true)
+
+Toggle the button as shown below to move it from stopped to running.
+
+![lens](images/tutorials/LensRunning1.png?raw=true)
+
+Make sure that Lens is running as shown below. **It might take well over five minutes for the state to move to running.**
+
+![lens](images/tutorials/LensRunning2.png?raw=true)
+
+You should have Lens desktop in your clusters list as shown below.
+
+![lens](images/tutorials/LensLDK1.png?raw=true)
+
+Now that Lens Desktop is installed, up and running we're ready to deploy the ToDo app.
 
 **Step Lens.C**: Set up secrets
 
@@ -938,7 +965,7 @@ Start by clicking on `Config`, `Secrets` and `+` as shown below.
 
 ![lens](images/tutorials/Lenssecret01.png?raw=true)
 
-Now add the secrets `astra-username` and `astra-password` as shown below.
+Now add the secret `astra` and the secrets `astra-username` and `astra-password`  as shown below.
 
 ![lens](images/tutorials/Lenssecret02.png?raw=true)
 
@@ -972,7 +999,19 @@ If you dig into `Pods` you should be see it running as shown below.
 
 You can look through other Kubernetes artifacts which you can easily navigate via Lens.
 
-**Step Lens.E**: Cleanup as below.
+**Step Lens.F**: Setup port forwarding
+
+Click on Network, Services and Forward... as shown below.
+
+![lens](images/tutorials/LensPortForward1.png?raw=true)
+
+Next forward to `8080` as shown below.
+
+![lens](images/tutorials/LensPortForward2.png?raw=true)
+
+This will setup the port forwarding to the appropriate pod. Ignore errors if any. You can now access the app via `8080` on `localhost`.
+
+**Step Lens.G**: Cleanup
 
 You can delete the service, deployment and secret using Lens.
 
