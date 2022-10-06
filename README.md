@@ -159,6 +159,12 @@ To learn more about roles, tokens, etc. you can lok at [this video.](https://www
 
 > **Note: Make sure you don't close the window accidentally or otherwise - if you close this window before you copy the values, the application token is lost forever. They won't be available later for security reasons. You'll have to create a new application token.**
 
+> **⚠️ Important**
+> ```
+> The instructor will show you on screen how to create a token 
+> but will have to destroy to token immediately for security reasons.
+> ```
+
 We are now set with the database and credentials. Let's start coding with Quarkus!
 
 [🏠 Back to Table of Contents](#0-table-of-contents)
