@@ -1,4 +1,4 @@
-# Containerization and Intro to Quarkus and Cassandra with Kubernetes, Lens
+# Intro to Quarkus and Cassandra with Kubernetes
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 [![License Apache2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
@@ -56,8 +56,7 @@ If you're primarily interested in containerization (as in **Slay the complexity 
 
 ## 0. Table of contents
 
-1. [Create Astra DB Instance](#1-create-astra-db-instance)
-2. [Create Astra Token](#2-create-astra-token)
+1. [Database Initialization](#1-create-astra-db-instance)
 3. [Launch Gitpod](#3-launch-gitpod)
 4. [Know your Gitpod](#4-know-your-gitpod)
 5. [Setup your Application](#5-setup-your-application)
@@ -78,9 +77,26 @@ If you're primarily interested in containerization (as in **Slay the complexity 
 
 - `✅ 1.1.a` - Access [https://astra.datastax.com](https://astra.datastax.com) and register with `Google` or `Github` account
 
-![](img/astra-login.png?raw=true")
+![](images/astra-login.png?raw=true")
 
-### 1.2 - Create an Astra Token
+
+### 1.2 - Create an Astra DB
+
+> **Info** [Reference Documentation](https://awesome-astra.github.io/docs/pages/astra/create-instance/)
+
+| Parameter     | Value     |
+|---------------|-----------|
+| Database name | `workshops` |
+| Keyspace name | `todolist`  |
+| Cloud         | `GCP`  |
+| Region        | `us-east1`  |
+
+![](images/astra-create-db.png?raw=true")
+
+
+[🏠 Back to Table of Contents](#0-table-of-contents)
+
+### 1.3 - Create an Astra Token
 
 - `✅ 1.2.a` Locate `Settings` (#1) in the menu on the left, then `Token Management` (#2) 
 
@@ -93,83 +109,9 @@ If you're primarily interested in containerization (as in **Slay the complexity 
 ![](https://github.com/DataStax-Academy/cassandra-for-data-engineers/blob/main/images/setup-astra-3.png?raw=true)
 
 
-
-- **For the database name** - `workshops`. While Astra DB allows you to fill in these fields with values of your own choosing, please follow our recommendations to ensure the application runs properly.
-
-- **For the keyspace name** - `todolist`. It's really important that you use the name "todolist" for the code to work. In short:
-
-| Parameter     | Value     |
-|---------------|-----------|
-| Database name | workshops |
-| Keyspace name | todolist  |
-
-_You can technically use whatever you want and update the code to reflect the keyspace. This is really to get you on a happy path for the first run._
-
-- **For provider and region**: Choose any provider (either GCP, AWS or Azure). Region is where your database will reside physically (choose one close to you or your users).
-
-> **NOTE:** You may see that only certain GCP regions are available unless you go in and unlock all the other GCP regions and AWS/Azure. If you see that, for the purposes of this workshop, please select one of the available GCP regions.
-
-- **Create the database**. Review all the fields to make sure they are as shown, and click the `Create Database` button.
-
-You will see your new database `pending` in the Dashboard.
-
-![db-pending-state](https://github.com/datastaxdevs/shared-assets/blob/master/astra/dashboard-pending-1000-update.png?raw=true)
-
-The status will change to `Active` when the database is ready, this will only take 2-3 minutes. You will also receive an email when it is ready.
-
-**👁️ Walkthrough**
-
-![db-creation-walkthrough](images/tutorials/astra-create-db.gif?raw=true)
-
 [🏠 Back to Table of Contents](#0-table-of-contents)
 
-## 2. Create Astra Token
-
-We need to create a **token** that we will use as our credentials.
-
-✅ **Step 2a: Generate Token**
-
-Following the [Manage Application Tokens docs](https://docs.datastax.com/en/astra/docs/manage-application-tokens.html) to create a token with `Database Administrator` roles.
-
-- Go the `Organization Settings`
-
-- Go to `Token Management`
-
-- Pick the role `Database Admnistrator` on the select box
-
-- Click Generate token
-
-**👁️ Walkthrough**
-
-![image](images/tutorials/astra-create-token.gif?raw=true)
-
-This is what the token page looks like. You can now download the values as a CSV. We will need those values, but you can also keep this window open for use later.
-
-![image](images/tutorials/astra-token.png?raw=true)
-
-Notice the clipboard icon at the end of each value.
-
-- `Client Id:` We will use it as a _username_ to contact Cassandra in the field `quarkus.cassandra.auth.username` in the `application.properties` file.
-
-- `Client Secret:` We will use it as a _password_ to contact Cassandra in the field `quarkus.cassandra.auth.password` in the `application.properties` file.
-
-- `Token:` It can be used as an api token key to interact with APIs. We won't use it in the workshop today.
-
-To learn more about roles, tokens, etc. you can lok at [this video.](https://www.youtube.com/watch?v=TUTCLsBuUd4)
-
-> **Note: Make sure you don't close the window accidentally or otherwise - if you close this window before you copy the values, the application token is lost forever. They won't be available later for security reasons. You'll have to create a new application token.**
-
-> **⚠️ Important**
-> ```
-> The instructor will show you on screen how to create a token 
-> but will have to destroy to token immediately for security reasons.
-> ```
-
-We are now set with the database and credentials. Let's start coding with Quarkus!
-
-[🏠 Back to Table of Contents](#0-table-of-contents)
-
-## 3. Launch Gitpod
+## 2. Gitpod
 
 [Gitpod](https://www.gitpod.io/) is an IDE 100% online based on [VS Code](https://github.com/gitpod-io/vscode/blob/gp-code/LICENSE.txt?lang=en-US). To initialize your environment simply click on the button below
 _(CTRL + Click to open in new tab)_ You will be asked for you github account, as needed.
@@ -257,7 +199,6 @@ gp open src/main/resources/application.properties
 
 ✅ **Step 5a: Enter 2 values from the token**
 
-
 Enter the values of `Client Id` and `Client Secret` from values noted earlier for `astra-username` and `astra-password` respectively. The two lines with a TBD in comments is shown below.
 
 ![gitpod](images/tutorials/editapplicationproperties2.png?raw=true)
@@ -265,27 +206,12 @@ Enter the values of `Client Id` and `Client Secret` from values noted earlier fo
 
 ✅ **Step 5b: Download the secure connect bundle**
 
-
-This next step is probably the most involved step in the entire workshop. The goal of this step is to get the customized connect bundle into Gitpod. One of the several ways of doing this is as follows.
-
-Start with the [Astra DB dashboard](https://astra.datastax.com) and for the database workshops,
-
-1. Click on `Connect` tab.
-2. Click on Connect using a driver `Java`.
-3. Click on `Download Bundle`.
-4. Click on `Secure Connect Bundle` to be able to copy the link locally.
-
-as shown below.
-
-![gitpod](images/tutorials/secureconnectbundle1.png?raw=true)	
-
-Locate the file locally in the finder/explorer window. Drag and drop the file into the Gitpod explorer window (on the left side, making sure that the cursor, indicating the drop is positioned in the Gitpod explorer window as shown below.
-
-![gitpod](images/tutorials/secureconnectbundle3.png?raw=true)
-
-In the Gitpod terminal window, verify that you dropped the right file and at the top level directory
-
-```bash
+```
+curl -Ls "https://dtsx.io/get-astra-cli" | bash
+source /home/gitpod/.astra/cli/astra-init.sh
+astra
+astra setup --token <>
+astra db download-scb workshops -f /workspace/quarkus-astra-intro-demo/secure-connect-workshops.zip 
 ls -l secure-connect-workshops.zip
 ```
 
@@ -945,7 +871,7 @@ After the launch the Lens Desktop might be in a stopped state as shown in the bo
 
 Click on the `Lens Desktop Kube: Stopped` and pick appropriate values as shown below.
 
-![lens](images/tutorials/LensValues1.png?raw=true)
+![lens](images/tutorials/Lensvalues1.png?raw=true)
 
 Note that the current state is shown as stopped as shown below.
 
