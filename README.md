@@ -1,6 +1,6 @@
-# ![ok](https://github.com/DataStax-Academy/AstraPortia/blob/master/0_materials/ico.jpg?raw=true) Workshop - Containerization and Intro to Quarkus and Cassandra with Kubernetes, Lens
+# Containerization and Intro to Quarkus and Cassandra with Kubernetes, Lens
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/DataStax-Academy/workshop-spring-data-cassandra)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/datastaxdevs/quarkus-astra-intro-demo)
 [![License Apache2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Discord](https://img.shields.io/discord/685554030159593522)](https://discord.com/widget?id=685554030159593522&theme=dark)
 
@@ -12,9 +12,7 @@ We will deploy the app on containers in Kubernetes using Lens.
 
 The application we will be using is based on [Jake's port](https://github.com/tjake/todo-astra-react-serverless/) of the [TodoMVC code](https://github.com/tastejs/todomvc/tree/master/examples/react) originally written by [Pete Hunt](https://github.com/petehunt). The example is modified from [https://github.com/huksley/todo-react-ssr-serverless](https://github.com/huksley/todo-react-ssr-serverless).
 
-![SplashScreen](images/tutorials/NewSplash.png?raw=true)
-
-a screenshot of this simple app is below.
+A screenshot of this simple app is below.
 
 ![AstraTodo](images/tutorials/AstraTodos.png?raw=true)
 
@@ -72,27 +70,29 @@ If you're primarily interested in containerization (as in **Slay the complexity 
 12. [Homework](#12-homework)
 
 
-## 1. Create Astra DB Instance
+## 1. Database Initialization
 
-_**`ASTRA DB`** is the simplest way to run Cassandra with zero operations at all - just push the button and get your cluster. No credit card required, $25.00 USD credit every month, roughly 80GB of storage and 20 million read/write operations storage monthly (numbers that have gone up in the last few days) - sufficient to run small production workloads._
+### 1.1 - Create an Astra Account
 
-✅ Register (if needed) and Sign In to Astra DB [https://astra.datastax.com](https://astra.dev/3-23): You can use your `Github`, `Google` accounts or register with an `email`.
+> **Note**: **Datastax Astra** is a cloud-native, fully managed database-as-a-service (DBaaS) based on Apache Cassandra. It provides a scalable, performant and highly available database solution without the operational overhead of managing Cassandra clusters. Astra supports both SQL and NoSQL APIs, and includes features like backup and restore, monitoring and alerting, and access control. It enables developers to focus on application development while the database infrastructure is managed by Datastax.
 
-_Make sure to chose a password with minimum 8 characters, containing upper and lowercase letters, at least one number and special character_
+- `✅ 1.1.a` - Access [https://astra.datastax.com](https://astra.datastax.com) and register with `Google` or `Github` account
 
-✅ Choose "Start Free Now"
+![](img/astra-login.png?raw=true")
 
-Choose the "Start Free Now" plan, then "Get Started" to work in the free tier.
+### 1.2 - Create an Astra Token
 
-You will have plenty of free initial credit which is renewed each month!.
+- `✅ 1.2.a` Locate `Settings` (#1) in the menu on the left, then `Token Management` (#2) 
 
-> If this is not enough for you, congratulations! You are most likely running a mid- to large-sized business! In that case you should switch to a paid plan.
+- `✅ 1.2.b`Select the role `Organization Administrator` before clicking `[Generate Token]`
 
-(You can follow this [guide](https://docs.datastax.com/en/astra/docs/creating-your-astra-database.html) to set up your free-tier database with the $25 monthly credit.)
+![](https://github.com/DataStax-Academy/cassandra-for-data-engineers/blob/main/images/setup-astra-2.png?raw=true)
 
-![astra-db-signup](images/tutorials/astra_signup.gif)
+- `✅ 1.2.c` - Copy your token in the clipboard. With this token we will now create what is needed for the training.
 
-To create the database:
+![](https://github.com/DataStax-Academy/cassandra-for-data-engineers/blob/main/images/setup-astra-3.png?raw=true)
+
+
 
 - **For the database name** - `workshops`. While Astra DB allows you to fill in these fields with values of your own choosing, please follow our recommendations to ensure the application runs properly.
 
